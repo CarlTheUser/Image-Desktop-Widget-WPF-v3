@@ -69,7 +69,7 @@
             return new Shared.Shadow(
                 Opacity: _opacity,
                 Depth: _depth,
-                Direction: _depth,
+                Direction: _direction,
                 BlurRadius: _blurRadius,
                 IsVisible: _visible);
         }

@@ -154,7 +154,7 @@
                                     Style="{StaticResource FlatSlider}"
                                     Minimum="0"
                                     Maximum="20"
-                                    Value="{Binding PinnedImage.FrameThickness, Converter={StaticResource FrameThicknessConverter}}"/>
+                                    Value="{Binding PinnedImage.FrameThickness, Converter={StaticResource FrameThicknessConverter}, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Grid>
 
@@ -227,7 +227,7 @@
                                     Minimum="0"
                                     Maximum="360"
                                     Interval="1"
-                                    Value="{Binding PinnedImage.Rotation, Converter={StaticResource RotationConverter}}"/>
+                                    Value="{Binding PinnedImage.Rotation, Converter={StaticResource RotationConverter}, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Grid>
 
@@ -299,7 +299,7 @@
                                     Style="{StaticResource FlatSlider}"
                                     Minimum="0"
                                     Maximum="20"
-                                    Value="{Binding PinnedImage.Corner, Converter={StaticResource CornerConverter}}"/>
+                                    Value="{Binding PinnedImage.Corner, Converter={StaticResource CornerConverter}, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Grid>
 
@@ -521,7 +521,7 @@
                                     Style="{StaticResource FlatSlider}"
                                     Minimum="0"
                                     Maximum="1"
-                                    Value="{Binding PinnedImage.Shadow.Opacity}"
+                                    Value="{Binding PinnedImage.Shadow.Opacity, UpdateSourceTrigger=PropertyChanged}"
                                     IsEnabled="{Binding PinnedImage.Shadow.Visible}"/>
                         </Grid>
 
@@ -547,7 +547,7 @@
                                     Minimum="0"
                                     Maximum="20"
                                     Interval="1"
-                                    Value="{Binding PinnedImage.Shadow.Depth}"
+                                    Value="{Binding PinnedImage.Shadow.Depth, UpdateSourceTrigger=PropertyChanged}"
                                     IsEnabled="{Binding PinnedImage.Shadow.Visible}"/>
                         </Grid>
 
@@ -573,7 +573,7 @@
                                     Minimum="0"
                                     Maximum="360"
                                     Interval="1"
-                                    Value="{Binding PinnedImage.Shadow.Direction}"
+                                    Value="{Binding PinnedImage.Shadow.Direction, UpdateSourceTrigger=PropertyChanged}"
                                     IsEnabled="{Binding PinnedImage.Shadow.Visible}"/>
                         </Grid>
 
@@ -599,7 +599,7 @@
                                     Minimum="0"
                                     Maximum="20"
                                     Interval="1"
-                                    Value="{Binding PinnedImage.Shadow.BlurRadius}"
+                                    Value="{Binding PinnedImage.Shadow.BlurRadius, UpdateSourceTrigger=PropertyChanged}"
                                     IsEnabled="{Binding PinnedImage.Shadow.Visible}"/>
                         </Grid>
 
