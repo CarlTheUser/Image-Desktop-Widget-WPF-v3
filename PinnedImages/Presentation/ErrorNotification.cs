@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 
 namespace Presentation
 {
@@ -7,9 +6,7 @@ namespace Presentation
     {
         public void Notify(Exception parameter)
         {
-            MessageBox.Show(
-                messageBoxText: $"{parameter.Message}\n{parameter.StackTrace}",
-                caption: $"An error occurred ({parameter.GetType().Name})");
+            new ErrorDisplayWindow(exception: parameter).ShowDialog();
         }
     }
 }
