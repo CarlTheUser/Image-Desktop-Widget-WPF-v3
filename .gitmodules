@@ -1,0 +1,3 @@
+[submodule "modules/Data-Common-Contracts-Net-Core"]
+	path = modules/Data-Common-Contracts-Net-Core
+	url = https://github.com/CarlTheUser/Data-Common-Contracts-Net-Core
