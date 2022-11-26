@@ -45,7 +45,7 @@
                         <Thickness Bottom="{StaticResource Thickness-8}"/>
                     </TextBlock.Margin>
                     <Run Text="Seems like"/>
-                    <Run Text="{Binding Path=Exception, Converter={StaticResource ExceptionToTypeName}, Mode=OneTime,FallbackValue=???}"
+                    <Run Text="{Binding Path=Exception, Converter={StaticResource ExceptionToTypeName}, Mode=OneTime,FallbackValue=Bad}"
                          d:Text="System.Exception"
                          Foreground="{StaticResource Red-500-Brush}"
                          FontWeight="SemiBold">
