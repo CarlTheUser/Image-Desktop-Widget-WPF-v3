@@ -1,0 +1,320 @@
+﻿<Window x:Class="Presentation.PinnedImageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:Presentation.Converters"
+        xmlns:appproperties="clr-namespace:Presentation.Properties"
+        xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=viewmodels:PinnedImageViewModel}"
+        Title="PinnedImageWindow"
+        MinHeight="112.5"
+        MinWidth="150"
+        MaxHeight="562.5"
+        MaxWidth="750"
+        d:Width="300"
+        d:Height="225"
+        Width="{Binding Image.Dimension.Width, Mode=TwoWay}"
+        Height="{Binding Image.Dimension.Height,Mode=TwoWay}"
+        Left="{Binding Image.Location.X, Mode=TwoWay}"
+        Top="{Binding Image.Location.Y, Mode=TwoWay}"
+        MouseDown="Window_MouseDown"
+        Closed="Window_Closed">
+    <Window.Resources>
+        <converters:ImageDirectoryPathToBitmapConverter x:Key="ImageDirectoryToThumbnailBitmapConverter" FileName="original"/>
+        <converters:ShadowToDropShadowEffectOpacityConverter x:Key="ShadowOpacityConverter"/>
+        <converters:CornerToCornerRadiusConverter x:Key="CornerConverter"/>
+        <converters:BrushToLightOrDarkBrushConverter x:Key="ForegroundBrushSource" BrushWhenValueIsDark="{StaticResource White-Brush}" BrushWhenValueIsLight="{StaticResource Black-Brush}"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Window.Resources>
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome
+                        CaptionHeight="0"
+                        ResizeBorderThickness="10"
+                        GlassFrameThickness="0"
+                        CornerRadius="0"
+                        />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="WindowStyle"
+                    Value="None"/>
+            <Setter Property="AllowsTransparency"
+                    Value="True"/>
+            <Setter Property="Background"
+                    Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Window">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderThickness="0">
+                            <Grid>
+                                <Rectangle Name="BorderStroke"
+                                           Fill="Transparent"
+                                           Stroke="Transparent"
+                                           StrokeDashArray="4 4"
+                                           SnapsToDevicePixels="True"
+                                           StrokeThickness="1.5">
+                                </Rectangle>
+                                <ContentPresenter/>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsActive" Value="true">
+                                <Setter TargetName="BorderStroke"  Property="Stroke">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding Converter={StaticResource ColorConverter}, Source={x:Static appproperties:Settings.Default}, Path=PrimaryColor}"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Style>
+    <Border>
+        <Grid>
+            <Border Panel.ZIndex="1"
+                    HorizontalAlignment="Center"
+                    MaxWidth="500"
+                    Background="{StaticResource Neutral-100-Brush}"
+                    BorderBrush="{StaticResource Neutral-400-Brush}"
+                    VerticalAlignment="Top"
+                    d:Visibility="Visible"
+                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=IsActive, Converter={StaticResource BoolToVisibilityConverter}}"
+                    Effect="{StaticResource Shadow-md}">
+                <Border.BorderThickness>
+                    <Thickness Left="{StaticResource Thickness-px}"
+                               Top="{StaticResource Thickness-px}"
+                               Right="{StaticResource Thickness-px}"
+                               Bottom="{StaticResource Thickness-px}"/>
+                </Border.BorderThickness>
+                <Border.Margin>
+                    <Thickness Left="{StaticResource Thickness-2}"
+                               Top="{StaticResource Thickness-2}"
+                               Right="{StaticResource Thickness-2}"
+                               Bottom="{StaticResource Thickness-1}"/>
+                </Border.Margin>
+                <Border.Padding>
+                    <Thickness Left="{StaticResource Thickness-1}"
+                               Top="{StaticResource Thickness-1}"
+                               Right="{StaticResource Thickness-1}"
+                               Bottom="{StaticResource Thickness-1}"/>
+                </Border.Padding>
+                <Border.CornerRadius>
+                    <CornerRadius TopLeft="{StaticResource Rounded-lg}"
+                                  TopRight="{StaticResource Rounded-lg}"
+                                  BottomRight="{StaticResource Rounded-lg}"
+                                  BottomLeft="{StaticResource Rounded-lg}"/>
+                </Border.CornerRadius>
+                <Border.Resources>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <Trigger Property="Visibility" Value="Visible">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                             From="0.0"
+                                                             To="1.0"
+                                                             Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Resources>
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+                    <StackPanel Orientation="Horizontal"
+                            FlowDirection="RightToLeft">
+                        <Button Style="{StaticResource StandardButton}"
+                                FontFamily="{StaticResource FontAwesomeFreeSolid}"
+                                Background="{StaticResource Neutral-100-Brush}"
+                                Width="{StaticResource Thickness-12}"
+                                Height="{StaticResource Thickness-8}"
+                                HorizontalContentAlignment="Center"
+                                Margin="0 0 2 0"
+                                BorderBrush="{StaticResource Neutral-400-Brush}"
+                                BorderThickness="0"
+                                ToolTipService.InitialShowDelay="0"
+                                Command="{Binding UnPinCommand}">
+                            <Button.ToolTip>
+                                <ToolTip Style="{StaticResource ModernToolTip}"
+                                         FontFamily="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=FontFamily}">
+                                    Unpin Image
+                                </ToolTip>
+                            </Button.ToolTip>
+                            <Button.Foreground>
+                                <SolidColorBrush
+                    Color="{Binding Converter={StaticResource ColorConverter}, Source={x:Static appproperties:Settings.Default}, Path=PrimaryColor}"/>
+                            </Button.Foreground>
+                            <Button.Padding>
+                                <Thickness Left="{StaticResource Thickness-1}"
+                                       Top="{StaticResource Thickness-1}"
+                                       Right="{StaticResource Thickness-1}"
+                                       Bottom="{StaticResource Thickness-1}"/>
+                            </Button.Padding>
+                            &#xf08d;
+                        </Button>
+                        <Button Style="{StaticResource StandardButton}"
+                                FontFamily="{StaticResource FontAwesomeFreeSolid}"
+                                Background="{StaticResource Neutral-100-Brush}"
+                                Width="{StaticResource Thickness-12}"
+                                Height="{StaticResource Thickness-8}"
+                                HorizontalContentAlignment="Center"
+                                Content="&#xf2ed;"
+                                Margin="2 0 2 0"
+                                Foreground="{StaticResource Black-Brush}"
+                                BorderBrush="{StaticResource Neutral-400-Brush}"
+                                BorderThickness="0"
+                                ToolTipService.InitialShowDelay="0"
+                                Command="{Binding DeleteCommand}">
+                            <Button.ToolTip>
+                                <ToolTip Style="{StaticResource ModernToolTip}"
+                                         FontFamily="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=FontFamily}">
+                                    Delete Image
+                                </ToolTip>
+                            </Button.ToolTip>
+                            <Button.Padding>
+                                <Thickness Left="{StaticResource Thickness-1}"
+                                       Top="{StaticResource Thickness-1}"
+                                       Right="{StaticResource Thickness-1}"
+                                       Bottom="{StaticResource Thickness-1}"/>
+                            </Button.Padding>
+                        </Button>
+                        <Button Style="{StaticResource StandardButton}"
+                                FontFamily="{StaticResource FontAwesomeFreeSolid}"
+                                Background="{StaticResource Neutral-100-Brush}"
+                                Width="{StaticResource Thickness-12}"
+                                Height="{StaticResource Thickness-8}"
+                                HorizontalContentAlignment="Center"
+                                Content="&#xf013;"
+                                Margin="2 0 2 0"
+                                Foreground="{StaticResource Black-Brush}"
+                                BorderBrush="{StaticResource Neutral-400-Brush}"
+                                BorderThickness="0"
+                                ToolTipService.InitialShowDelay="0"
+                                Command="{Binding OpenSettingsCommand}">
+                            <Button.ToolTip>
+                                <ToolTip Style="{StaticResource ModernToolTip}"
+                                         FontFamily="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=FontFamily}">
+                                    Style Image
+                                </ToolTip>
+                            </Button.ToolTip>
+                            <Button.Padding>
+                                <Thickness Left="{StaticResource Thickness-1}"
+                                       Top="{StaticResource Thickness-1}"
+                                       Right="{StaticResource Thickness-1}"
+                                       Bottom="{StaticResource Thickness-1}"/>
+                            </Button.Padding>
+                        </Button>
+                        <Button Style="{StaticResource StandardButton}"
+                                FontFamily="{StaticResource FontAwesomeFreeSolid}"
+                                Background="{StaticResource Neutral-100-Brush}"
+                                Width="{StaticResource Thickness-12}"
+                                Height="{StaticResource Thickness-8}"
+                                HorizontalContentAlignment="Center"
+                                Content="&#xf015;"
+                                Margin="2 0 2 0"
+                                Foreground="{StaticResource Black-Brush}"
+                                BorderBrush="{StaticResource Neutral-400-Brush}"
+                                BorderThickness="0"
+                                ToolTipService.InitialShowDelay="0"
+                                Command="{Binding ShowHomeCommand}">
+                            <Button.ToolTip>
+                                <ToolTip Style="{StaticResource ModernToolTip}"
+                                         FontFamily="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=FontFamily}">
+                                    Show Home
+                                </ToolTip>
+                            </Button.ToolTip>
+                            <Button.Padding>
+                                <Thickness Left="{StaticResource Thickness-1}"
+                                       Top="{StaticResource Thickness-1}"
+                                       Right="{StaticResource Thickness-1}"
+                                       Bottom="{StaticResource Thickness-1}"/>
+                            </Button.Padding>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+            <Border x:Name="ImageFrame"
+                    d:BorderThickness="12"
+                    d:BorderBrush="{StaticResource Neutral-50-Brush}"
+                    d:Background="{StaticResource Neutral-700-Brush}"
+                    Padding="{Binding Image.FrameThickness.Value, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    UseLayoutRounding="True"
+                    CornerRadius="{Binding Image.Corner, Converter={StaticResource CornerConverter}}"
+                    BorderThickness="1"
+                    BorderBrush="{StaticResource Neutral-200-Brush}">
+                <Border.Effect>
+                    <DropShadowEffect 
+                        Color="{StaticResource Black}"
+                        Opacity="{Binding Image.Shadow.Opacity}"
+                        ShadowDepth="{Binding Image.Shadow.Depth}"
+                        Direction="{Binding Image.Shadow.Direction}"
+                        BlurRadius="{Binding Image.Shadow.BlurRadius}"
+                        />
+                </Border.Effect>
+                <Border.Margin>
+                    <Thickness Left="{StaticResource Thickness-2}"
+                               Top="{StaticResource Thickness-1}"
+                               Right="{StaticResource Thickness-2}"
+                               Bottom="{StaticResource Thickness-3}"/>
+                </Border.Margin>
+                <Border.Background>
+                    <SolidColorBrush Color="{Binding Image.Color}"/>
+                </Border.Background>
+                <Border.LayoutTransform>
+                    <RotateTransform
+                        CenterX="0.5"
+                        CenterY="0.5"
+                        Angle="{Binding Image.Rotation.Angle, FallbackValue=0}"/>
+                </Border.LayoutTransform>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0"
+                           Name="Image"
+                           Stretch="UniformToFill"
+                           Source="{Binding Image.Directory, Converter={StaticResource ImageDirectoryToThumbnailBitmapConverter}}"/>
+                    <TextBlock 
+                        Grid.Row="1"
+                        Name="Captiontext"
+                        Text="{Binding Image.Caption.Text, Mode=OneWay}"
+                        d:Text="Sample"
+                        d:Visibility="Visible"
+                        d:Background="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=BorderBrush}"
+                        Visibility="{Binding Image.Caption.Visible, Converter={StaticResource BoolToVisibilityConverter}}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        TextWrapping="Wrap" 
+                        TextAlignment="Center"
+                        FontFamily="{StaticResource Caveat}"
+                        FontSize="{StaticResource Text-xl}"
+                        MaxHeight="{StaticResource Thickness-20}"
+                        Foreground="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background, Converter={StaticResource ForegroundBrushSource}}">
+                        <TextBlock.Padding>
+                            <Thickness
+                                Left="{StaticResource Thickness-1}"
+                                Top="{StaticResource Thickness-1}"
+                                Right="{StaticResource Thickness-1}"
+                                Bottom="{StaticResource Thickness-1}"
+                                />
+                        </TextBlock.Padding>
+                        <TextBlock.Background>
+                            <SolidColorBrush Color="{Binding Image.Color}"/>
+                        </TextBlock.Background>
+                    </TextBlock>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

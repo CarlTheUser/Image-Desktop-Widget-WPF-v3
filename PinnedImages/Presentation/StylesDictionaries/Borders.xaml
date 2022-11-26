@@ -1,0 +1,69 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <!--https://tailwindcss.com/docs/border-radius-->
+    <System:Double x:Key="Rounded-None">0</System:Double>
+    <System:Double x:Key="Rounded-sm">2</System:Double>
+    <System:Double x:Key="Rounded">4</System:Double>
+    <System:Double x:Key="Rounded-md">6</System:Double>
+    <System:Double x:Key="Rounded-lg">8</System:Double>
+    <System:Double x:Key="Rounded-xl">12</System:Double>
+    <System:Double x:Key="Rounded-2xl">16</System:Double>
+    <System:Double x:Key="Rounded-3xl">24</System:Double>
+    <System:Double x:Key="Rounded-Full">999</System:Double>
+
+    <CornerRadius x:Key="Corder-Rounded-None" 
+                  BottomLeft="{StaticResource Rounded-None}"
+                  BottomRight="{StaticResource Rounded-None}"
+                  TopLeft="{StaticResource Rounded-None}"
+                  TopRight="{StaticResource Rounded-None}"/>
+
+    <CornerRadius x:Key="Corner-Rounded-sm" 
+                  BottomLeft="{StaticResource Rounded-sm}"
+                  BottomRight="{StaticResource Rounded-sm}"
+                  TopLeft="{StaticResource Rounded-sm}"
+                  TopRight="{StaticResource Rounded-sm}"/>
+
+    <CornerRadius x:Key="Corner-Rounded" 
+                  BottomLeft="{StaticResource Rounded}"
+                  BottomRight="{StaticResource Rounded}"
+                  TopLeft="{StaticResource Rounded}"
+                  TopRight="{StaticResource Rounded}"/>
+
+    <CornerRadius x:Key="Corner-Rounded-md" 
+                  BottomLeft="{StaticResource Rounded-md}"
+                  BottomRight="{StaticResource Rounded-md}"
+                  TopLeft="{StaticResource Rounded-md}"
+                  TopRight="{StaticResource Rounded-md}"/>
+    
+    <CornerRadius x:Key="Corner-Rounded-lg" 
+                  BottomLeft="{StaticResource Rounded-lg}"
+                  BottomRight="{StaticResource Rounded-lg}"
+                  TopLeft="{StaticResource Rounded-lg}"
+                  TopRight="{StaticResource Rounded-lg}"/>
+    
+    <CornerRadius x:Key="Corner-Rounded-xl" 
+                  BottomLeft="{StaticResource Rounded-xl}"
+                  BottomRight="{StaticResource Rounded-xl}"
+                  TopLeft="{StaticResource Rounded-xl}"
+                  TopRight="{StaticResource Rounded-xl}"/>
+
+    <CornerRadius x:Key="Corner-Rounded-2xl" 
+                  BottomLeft="{StaticResource Rounded-2xl}"
+                  BottomRight="{StaticResource Rounded-2xl}"
+                  TopLeft="{StaticResource Rounded-2xl}"
+                  TopRight="{StaticResource Rounded-2xl}"/>
+
+    <CornerRadius x:Key="Corner-Rounded-3xl" 
+                  BottomLeft="{StaticResource Rounded-3xl}"
+                  BottomRight="{StaticResource Rounded-3xl}"
+                  TopLeft="{StaticResource Rounded-3xl}"
+                  TopRight="{StaticResource Rounded-3xl}"/>
+
+    <CornerRadius x:Key="Corner-Rounded-Full" 
+                  BottomLeft="{StaticResource Rounded-Full}"
+                  BottomRight="{StaticResource Rounded-Full}"
+                  TopLeft="{StaticResource Rounded-Full}"
+                  TopRight="{StaticResource Rounded-Full}"/>
+</ResourceDictionary>

@@ -1,0 +1,98 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converter="clr-namespace:Presentation.Converters"
+                    xmlns:appproperties="clr-namespace:Presentation.Properties">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>
+            <converter:ColorToLightOrDarkColorConverter x:Key="ForegroundColorSource" WhenValueIsDarkColor="{StaticResource White}" WhenValueIsLightColor="{StaticResource Black}"/>
+            <!--<converter:BrushToLightOrDarkBrushConverter x:Key="ForegroundBrushSource" WhenValueIsDarkColor="{StaticResource White-Brush}" WhenValueIsLightColor="{StaticResource Black-Brush}"/>-->
+            <converter:BrushToLightOrDarkBrushConverter x:Key="ForegroundBrushSource" BrushWhenValueIsDark="{StaticResource White-Brush}" BrushWhenValueIsLight="{StaticResource Black-Brush}"/>
+            <converter:DrawingColorToMediaColor x:Key="ColorConverter"/>
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="Button"
+           x:Key="StandardButton">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background, Converter={StaticResource ForegroundBrushSource}}"/>
+        <Setter Property="BorderThickness" Value="0.5"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Neutral-800-Brush}"/>
+        <Setter Property="Padding">
+            <Setter.Value>
+                <Thickness Left="{StaticResource Thickness-4}"
+                           Top="{StaticResource Thickness-2}"
+                           Right="{StaticResource Thickness-4}"
+                           Bottom="{StaticResource Thickness-2}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="FontSize" Value="{StaticResource Text-sm}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Grid.OpacityMask>
+                            <VisualBrush Visual="{Binding ElementName=ElementBorder}"/>
+                        </Grid.OpacityMask>
+                        <Border x:Name="ElementBorder" 
+                                Background="{TemplateBinding Background}"
+                                Effect="{TemplateBinding Effect}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                ClipToBounds="True">
+                            <Border.CornerRadius>
+                                <CornerRadius TopLeft="{StaticResource Rounded-md}"
+                                              TopRight="{StaticResource Rounded-md}"
+                                              BottomRight="{StaticResource Rounded-md}"
+                                              BottomLeft="{StaticResource Rounded-md}"/>
+                            </Border.CornerRadius>
+                            <Grid>
+                                <Rectangle x:Name="Mask"/>
+                                <Border BorderThickness="0"
+                                    Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                  Content="{TemplateBinding Content}"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Mask"
+                                    Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{StaticResource Neutral-300}"
+                                                     Opacity="0.3"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Mask"
+                                    Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush 
+                                        Color="{StaticResource Neutral-300}"
+                                        Opacity=".5"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button"
+           x:Key="ActionButton"
+           BasedOn="{StaticResource StandardButton}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush
+                    Color="{Binding Converter={StaticResource ColorConverter}, Source={x:Static appproperties:Settings.Default}, Path=PrimaryColor}"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

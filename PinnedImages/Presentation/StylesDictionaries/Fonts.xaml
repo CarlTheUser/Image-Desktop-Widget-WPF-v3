@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <FontFamily x:Key="FontAwesomeFreeRegular">/Presentation;component/Resources/Fonts/fontawesome/font-awesome-6-free-regular-400.otf#Font Awesome 6 Free Regular</FontFamily>
+    <FontFamily x:Key="FontAwesomeFreeSolid">/Presentation;component/Resources/Fonts/fontawesome/font-awesome-6-free-solid-900.otf#Font Awesome 6 Free Solid</FontFamily>
+    <FontFamily x:Key="Caveat">/Presentation;component/Resources/Fonts/Caveat-VariableFont_wght.ttf#Caveat</FontFamily>
+</ResourceDictionary>

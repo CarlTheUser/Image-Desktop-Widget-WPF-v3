@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <!--https://tailwindcss.com/docs/font-size-->
+
+    <System:Double x:Key="Text-xs">12</System:Double>
+    <System:Double x:Key="Text-sm">14</System:Double>
+    <System:Double x:Key="Text-base">16</System:Double>
+    <System:Double x:Key="Text-lg">18</System:Double>
+    <System:Double x:Key="Text-xl">20</System:Double>
+    <System:Double x:Key="Text-2xl">24</System:Double>
+    <System:Double x:Key="Text-3xl">30</System:Double>
+    <System:Double x:Key="Text-4xl">36</System:Double>
+    <System:Double x:Key="Text-5xl">48</System:Double>
+    <System:Double x:Key="Text-6xl">60</System:Double>
+    <System:Double x:Key="Text-7xl">72</System:Double>
+    <System:Double x:Key="Text-8xl">96</System:Double>
+    <System:Double x:Key="Text-9xl">228</System:Double>
+
+</ResourceDictionary>

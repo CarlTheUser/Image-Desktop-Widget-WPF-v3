@@ -1,0 +1,121 @@
+﻿<Window x:Class="Presentation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:Presentation.Converters"
+        xmlns:pages="clr-namespace:Presentation.Pages"
+        xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
+        mc:Ignorable="d"
+        Title="Image Desktop Widget" 
+        Height="600"
+        MinHeight="{StaticResource Thickness-96}"
+        Width="960"
+        MinWidth="{StaticResource Thickness-96}"
+        Style="{StaticResource MainWindow}"
+        Name="Instance">
+    <Window.Resources>
+        <converters:ApplicationPageToPageConverter x:Key="PageConverter"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel x:Name="VM"/>
+    </Window.DataContext>
+    <!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid>
+            <StackPanel Margin="20px">
+                <TextBlock Padding="10" Text="" FontFamily="{StaticResource FontAwesomeFreeSolid}" Background="White" Margin="15px"/>
+                <TextBlock Padding="10" Text="Time &amp; language" Background="White" Margin="15px"/>
+                <TextBlock Padding="10" Text="Time &amp; language" Background="White" Margin="15px" Effect="{StaticResource Shadow-None}"/>
+                <TextBlock Padding="10" Text="Time &amp; language" Background="White" Margin="15px" Effect="{StaticResource Shadow-sm}"/>
+                <TextBlock Padding="10" Text="Time &amp; language" Background="White" Margin="15px" Effect="{StaticResource Shadow}"/>
+                <TextBlock Padding="10" Text="Time &amp; language" Background="White" Margin="15px" Effect="{StaticResource Shadow-md}"/>
+                <TextBlock Padding="10" Text="Time &amp; language" Background="White" Margin="15px" Effect="{StaticResource Shadow-lg}"/>
+                <TextBlock Padding="10" Text="Time &amp; language" Background="White" Margin="15px" Effect="{StaticResource Shadow-xl}"/>
+                <TextBlock Padding="10" Text="Time &amp; language" Background="White" Margin="15px" Effect="{StaticResource Shadow-2xl}"/>
+                <TextBlock Padding="10" Text="&#xf004;" FontFamily="{StaticResource FontAwesomeFreeRegular}" Background="White" Margin="15px" Effect="{StaticResource Shadow-2xl}"/>
+            </StackPanel>
+
+        </Grid>
+    </ScrollViewer>-->
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition 
+                MinWidth="{StaticResource Thickness-40}" 
+                MaxWidth="{StaticResource Thickness-48}"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Column="0">
+            <DockPanel.Resources>
+                <Thickness x:Key="Margin"
+                           Top="{StaticResource Thickness-1}"
+                           Right="{StaticResource Thickness-1}"
+                           Bottom="{StaticResource Thickness-1}"
+                           Left="{StaticResource Thickness-1}"/>
+
+                <Thickness x:Key="Padding"
+                           Top="{StaticResource Thickness-2}"
+                           Right="{StaticResource Thickness-4}"
+                           Bottom="{StaticResource Thickness-2}"
+                           Left="{StaticResource Thickness-4}"/>
+            </DockPanel.Resources>
+
+            <RadioButton DockPanel.Dock="Bottom"
+                         Style="{StaticResource LeftSideBarItem}"
+                         Margin="{StaticResource Margin}"
+                         Padding="{StaticResource Padding}"
+                         Background="{Binding ElementName=Instance, Path=Background}"
+                         GroupName="Pages"
+                         Command="{Binding ElementName=VM, Path=NavigateToPageCommand}"
+                         CommandParameter="{x:Static pages:ApplicationPage.SettingsPage}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="36"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{StaticResource FontAwesomeFreeSolid}" 
+                                   Text="&#xf013;"/>
+                    <TextBlock Grid.Column="1" 
+                                   VerticalAlignment="Center"
+                                   Text="Settings"/>
+                </Grid>
+            </RadioButton>
+
+            <StackPanel Orientation="Vertical" 
+                        DockPanel.Dock="Top">
+                <RadioButton Style="{StaticResource LeftSideBarItem}"
+                             Margin="{StaticResource Margin}"
+                             Padding="{StaticResource Padding}"
+                             Background="{Binding ElementName=Instance, Path=Background}"
+                             IsChecked="True"
+                             GroupName="Pages"
+                             Command="{Binding ElementName=VM, Path=NavigateToPageCommand}"
+                             CommandParameter="{x:Static pages:ApplicationPage.MainPage}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="36"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{StaticResource FontAwesomeFreeSolid}" 
+                                   Text="&#xf630;"/>
+                        <TextBlock Grid.Column="1" 
+                                   VerticalAlignment="Center"
+                                   Text="Library"/>
+                    </Grid>
+                </RadioButton>
+            </StackPanel>
+        </DockPanel>
+        <ScrollViewer 
+            Grid.Row="0" 
+            Grid.Column="1"
+            VerticalScrollBarVisibility="Auto">
+            <Frame NavigationUIVisibility="Hidden" x:Name="ee"
+               Content="{Binding ElementName=VM, Path=CurrentPage, Converter={StaticResource PageConverter}}">
+            </Frame>
+        </ScrollViewer>
+    </Grid>
+</Window>
