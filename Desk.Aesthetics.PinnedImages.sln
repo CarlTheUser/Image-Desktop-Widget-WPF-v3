@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "PinnedImages\Core\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Data", "PinnedImages\Infrastructure.Data\Infrastructure.Data.csproj", "{C358461D-5E3E-429C-8CBB-4F89202C050D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Common.Contracts", "modules\Data-Common-Contracts-Net-Core\Data.Common.Contracts\Data.Common.Contracts.csproj", "{DDDFE1CC-74B5-44B9-A554-26ECD6A76150}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{C358461D-5E3E-429C-8CBB-4F89202C050D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C358461D-5E3E-429C-8CBB-4F89202C050D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C358461D-5E3E-429C-8CBB-4F89202C050D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDDFE1CC-74B5-44B9-A554-26ECD6A76150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDDFE1CC-74B5-44B9-A554-26ECD6A76150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDDFE1CC-74B5-44B9-A554-26ECD6A76150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDDFE1CC-74B5-44B9-A554-26ECD6A76150}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{68FBF271-3DDB-4E28-9808-3861995192E2} = {D216EC71-4362-42BB-95E3-C7EDEB471DFF}
 		{5CBC8900-0C98-4005-9338-1B693CEC4911} = {D216EC71-4362-42BB-95E3-C7EDEB471DFF}
 		{C358461D-5E3E-429C-8CBB-4F89202C050D} = {D216EC71-4362-42BB-95E3-C7EDEB471DFF}
+		{DDDFE1CC-74B5-44B9-A554-26ECD6A76150} = {2E3549D6-9530-478F-9942-EAF4FACA815C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {32AC8808-D473-4C0A-93F9-C8A79BBAD01B}
