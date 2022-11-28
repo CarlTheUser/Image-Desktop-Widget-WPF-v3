@@ -16,8 +16,8 @@ namespace Presentation
     public partial class PinnedImageWindow : Window, 
         IApplicationViewComponent<PinnedImageViewModel>
     {
+        private readonly IMessenger _messenger;
         public PinnedImageViewModel ViewModel { get; }
-
         public PinnedImageWindow(
             Models.PinnedImage pinnedImage,
             MainWindowViewLauncher mainWindowViewLauncher,
@@ -46,6 +46,8 @@ namespace Presentation
 
             messenger.Register<PinnedImageWindow, Messages.PinnedImageUnpinnedMessage>(recipient: this, handler: OnPinnedImageUnpinned);
             messenger.Register<PinnedImageWindow, Messages.PinnedImageDeletedMessage>(recipient: this, handler: OnPinnedImageDeleted);
+
+            _messenger = messenger;
         }
 
         public PinnedImageViewModel GetViewModel()
@@ -62,6 +64,9 @@ namespace Presentation
         private async void Window_Closed(object sender, EventArgs e)
         {
             await ViewModel.SaveStateAsync(cancellationToken: CancellationToken.None);
+
+            _messenger.Unregister<Messages.PinnedImageUnpinnedMessage>(recipient: this);
+            _messenger.Unregister<Messages.PinnedImageDeletedMessage>(recipient: this);
         }
 
         public void OnPinnedImageUnpinned(PinnedImageWindow _, PinnedImageUnpinnedMessage message)
