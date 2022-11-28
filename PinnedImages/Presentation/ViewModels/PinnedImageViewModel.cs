@@ -1,5 +1,6 @@
 ﻿using Application.Services;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Presentation.Models;
 using System;
@@ -11,13 +12,13 @@ namespace Presentation.ViewModels
     public class PinnedImageViewModel : ViewModelBase
     {
         private readonly ILogger<PinnedImageViewModel> _logger;
-        private readonly IDisplayHost _pinnedImageDisplayHost;
         private readonly MainWindowViewLauncher _mainWindowViewLauncher;
         private readonly IUserNotification<Exception> _errorNotification;
         private readonly IDeletePinnedImageService _deletePinnedImageService;
         private readonly IChangePinnedImageDisplayParameterService _changePinnedImageDisplayParameterService;
         private readonly IUnpinImageService _unpinImageService;
         private readonly IPinnedImageRestyleViewLauncher _pinnedImageRestyleViewLauncher;
+        private readonly IMessenger _messenger;
 
         private bool _isDeleted = false;
 
@@ -31,17 +32,16 @@ namespace Presentation.ViewModels
         public PinnedImageViewModel(
             ILogger<PinnedImageViewModel> logger,
             PinnedImage pinnedImage,
-            IDisplayHost pinnedImageDisplayHost,
             MainWindowViewLauncher mainWindowViewLauncher,
             IUserNotification<Exception> errorNotification,
             IDeletePinnedImageService deletePinnedImageService,
             IChangePinnedImageDisplayParameterService changePinnedImageDisplayParameterService,
             IUnpinImageService unpinImageService,
-            IPinnedImageRestyleViewLauncher pinnedImageRestyleViewLauncher)
+            IPinnedImageRestyleViewLauncher pinnedImageRestyleViewLauncher,
+            IMessenger messenger)
         {
             _logger = logger;
             Image = pinnedImage;
-            _pinnedImageDisplayHost = pinnedImageDisplayHost;
             _mainWindowViewLauncher = mainWindowViewLauncher;
             _errorNotification = errorNotification;
             _deletePinnedImageService = deletePinnedImageService;
@@ -53,6 +53,7 @@ namespace Presentation.ViewModels
             OpenSettingsCommand = new RelayCommand(execute: OpenSettings);
             DeleteCommand = new AsyncRelayCommand(execute: Delete);
             UnPinCommand = new AsyncRelayCommand(execute: UnPin);
+            _messenger = messenger;
         }
 
         private void ShowHome()
@@ -83,7 +84,7 @@ namespace Presentation.ViewModels
                 }
                 finally
                 {
-                    _pinnedImageDisplayHost.Close();
+                    _messenger.Send(message: new Messages.PinnedImageDeletedMessage(ImageId: Image.Id));
                 }
             }
         }
@@ -101,7 +102,7 @@ namespace Presentation.ViewModels
             }
             finally
             {
-                _pinnedImageDisplayHost.Close();
+                _messenger.Send(message: new Messages.PinnedImageUnpinnedMessage(ImageId: Image.Id));
             }
         }
 

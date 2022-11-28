@@ -1,14 +1,17 @@
 ﻿using Application.Services;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Data.Common.Contracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Presentation.Messages;
 using Presentation.View.Misc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using P = Data.Projections;
@@ -25,12 +28,15 @@ namespace Presentation.ViewModels
         private readonly IUserNotification<Exception> _errorNotification;
         private readonly IUnpinImageService _unpinImageService;
         private readonly IRepinImageService _repinImageService;
+        private readonly IDeletePinnedImageService _deletePinnedImageService;
         private readonly ILogger<LibraryPageViewModel> _logger;
+        private readonly IMessenger _messenger;
 
         private ObservableCollection<Models.PinnedImageListItem> _pinnedImages = new();
         public IAsyncRelayCommand LoadPinnedImagesCommand { get; }
         public IAsyncRelayCommand PinImageCommand { get; }
         public IAsyncRelayCommand<Models.PinnedImageListItem> TogglePinCommand { get; }
+        public IAsyncRelayCommand<Models.PinnedImageListItem> DeleteImageCommand { get; }
         public ObservableCollection<Models.PinnedImageListItem> PinnedImages
         {
             get => _pinnedImages;
@@ -50,7 +56,9 @@ namespace Presentation.ViewModels
             IUserNotification<Exception> errorNotification,
             IUnpinImageService unpinImageService,
             IRepinImageService repinImageService,
-            ILogger<LibraryPageViewModel> logger)
+            IDeletePinnedImageService deletePinnedImageService,
+            ILogger<LibraryPageViewModel> logger,
+            IMessenger messenger)
         {
             _configuration = configuration;
             _allPinnedImageListItemsQuery = allPinnedImageListItemsQuery;
@@ -60,11 +68,17 @@ namespace Presentation.ViewModels
             _errorNotification = errorNotification;
             _unpinImageService = unpinImageService;
             _repinImageService = repinImageService;
+            _deletePinnedImageService = deletePinnedImageService;
             _logger = logger;
+            _messenger = messenger;
 
             LoadPinnedImagesCommand = new AsyncRelayCommand(execute: LoadPinnedImages);
             PinImageCommand = new AsyncRelayCommand(execute: PinImage, canExecute: () => true);
             TogglePinCommand = new AsyncRelayCommand<Models.PinnedImageListItem>(execute: TogglePin);
+            DeleteImageCommand = new AsyncRelayCommand<Models.PinnedImageListItem>(execute: DeleteImage);
+
+            messenger.Register<LibraryPageViewModel, Messages.PinnedImageUnpinnedMessage>(recipient: this, handler: OnPinnedImageUnpinned);
+            messenger.Register<LibraryPageViewModel, Messages.PinnedImageDeletedMessage>(recipient: this, handler: OnPinnedImageDeleted);
         }
         private async Task LoadPinnedImages()
         {
@@ -79,33 +93,6 @@ namespace Presentation.ViewModels
                                                                                                 caption: item.Caption.Text,
                                                                                                 isShown: item.IsShown,
                                                                                                 creationTimestamp: item.CreationTimestamp));
-        }
-
-        private async Task TogglePin(Models.PinnedImageListItem item)
-        {
-            bool isPinned = item.IsShown;
-
-            try
-            {
-                if (isPinned)
-                {
-                    await _unpinImageService.Unpin(imageId: item.Id);
-                }
-                else
-                {
-                    await _repinImageService.Repin(imageId: item.Id);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(exception: ex, message: "An error occurred.");
-
-                _errorNotification.Notify(ex);
-            }
-            finally
-            {
-                item.IsShown = !isPinned;
-            }
         }
 
         private async Task PinImage()
@@ -164,6 +151,67 @@ namespace Presentation.ViewModels
             {
                 stream.Dispose();
             }
+        }
+
+        private async Task TogglePin(Models.PinnedImageListItem? item)
+        {
+            if (item == null) return;
+
+            bool isPinned = item.IsShown;
+
+            try
+            {
+                if (isPinned)
+                {
+                    await _unpinImageService.Unpin(imageId: item.Id);
+                }
+                else
+                {
+                    await _repinImageService.Repin(imageId: item.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(exception: ex, message: "An error occurred.");
+
+                _errorNotification.Notify(ex);
+            }
+            finally
+            {
+                item.IsShown = !isPinned;
+            }
+        }
+
+        private async Task DeleteImage(Models.PinnedImageListItem? item)
+        {
+            if (item == null) return;
+
+            Shared.ImageId imageId = item.Id;
+
+            try
+            {
+                await _deletePinnedImageService.DeletePinnedImage(imageId: imageId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(exception: ex, message: "An error occurred.");
+
+                _errorNotification.Notify(ex);
+            }
+            finally
+            {
+                _messenger.Send(message: new Messages.PinnedImageDeletedMessage(ImageId: imageId));
+            }
+        }
+
+        public void OnPinnedImageUnpinned(LibraryPageViewModel _, PinnedImageUnpinnedMessage message)
+        {
+            _pinnedImages.First(x => x.Id == message.ImageId).IsShown = false;
+        }
+
+        public void OnPinnedImageDeleted(LibraryPageViewModel _, PinnedImageDeletedMessage message)
+        {
+            _pinnedImages.Remove(item: _pinnedImages.First(x => x.Id == message.ImageId));
         }
     }
 }

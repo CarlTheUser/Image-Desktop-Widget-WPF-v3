@@ -1,5 +1,7 @@
 ﻿using Application.Services;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
+using Presentation.Messages;
 using Presentation.ViewModels;
 using System;
 using System.Threading;
@@ -11,7 +13,8 @@ namespace Presentation
     /// <summary>
     /// Interaction logic for PinnedImageWindow.xaml
     /// </summary>
-    public partial class PinnedImageWindow : Window, IApplicationViewComponent<PinnedImageViewModel>, IDisplayHost
+    public partial class PinnedImageWindow : Window, 
+        IApplicationViewComponent<PinnedImageViewModel>
     {
         public PinnedImageViewModel ViewModel { get; }
 
@@ -23,22 +26,26 @@ namespace Presentation
             IChangePinnedImageDisplayParameterService changePinnedImageDisplayParameterService,
             IUnpinImageService unpinImageService,
             ILogger<PinnedImageViewModel> logger,
-            IPinnedImageRestyleViewLauncher pinnedImageRestyleViewLauncher)
+            IPinnedImageRestyleViewLauncher pinnedImageRestyleViewLauncher,
+            IMessenger messenger)
         {
             InitializeComponent();
 
             ViewModel = new(
                 logger: logger,
                 pinnedImage: pinnedImage,
-                pinnedImageDisplayHost: this,
                 mainWindowViewLauncher: mainWindowViewLauncher,
                 errorNotification: errorNotification,
                 deletePinnedImageService: deletePinnedImageService,
                 changePinnedImageDisplayParameterService: changePinnedImageDisplayParameterService,
                 unpinImageService: unpinImageService,
-                pinnedImageRestyleViewLauncher: pinnedImageRestyleViewLauncher);
+                pinnedImageRestyleViewLauncher: pinnedImageRestyleViewLauncher,
+                messenger: messenger);
 
             DataContext = ViewModel;
+
+            messenger.Register<PinnedImageWindow, Messages.PinnedImageUnpinnedMessage>(recipient: this, handler: OnPinnedImageUnpinned);
+            messenger.Register<PinnedImageWindow, Messages.PinnedImageDeletedMessage>(recipient: this, handler: OnPinnedImageDeleted);
         }
 
         public PinnedImageViewModel GetViewModel()
@@ -46,7 +53,7 @@ namespace Presentation
             return ViewModel;
         }
 
-        private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Window_MouseDown(object _, System.Windows.Input.MouseButtonEventArgs e)
         {
             Keyboard.ClearFocus();
             if (e.ChangedButton == MouseButton.Left) DragMove();
@@ -55,6 +62,22 @@ namespace Presentation
         private async void Window_Closed(object sender, EventArgs e)
         {
             await ViewModel.SaveStateAsync(cancellationToken: CancellationToken.None);
+        }
+
+        public void OnPinnedImageUnpinned(PinnedImageWindow _, PinnedImageUnpinnedMessage message)
+        {
+            if(message.ImageId == ViewModel.Image.Id)
+            {
+                Close();
+            }
+        }
+
+        public void OnPinnedImageDeleted(PinnedImageWindow _, PinnedImageDeletedMessage message)
+        {
+            if (message.ImageId == ViewModel.Image.Id)
+            {
+                Close();
+            }
         }
     }
 }

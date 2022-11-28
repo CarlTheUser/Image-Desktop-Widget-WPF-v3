@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using CommunityToolkit.Mvvm.Messaging;
 using Data.Projections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -72,7 +73,8 @@ namespace Presentation
                 changePinnedImageDisplayParameterService: service.GetRequiredService<IChangePinnedImageDisplayParameterService>(),
                 unpinImageService: service.GetRequiredService<IUnpinImageService>(),
                 logger: service.GetRequiredService<ILogger<PinnedImageViewModel>>(),
-                pinnedImageRestyleViewLauncher: service.GetRequiredService<IPinnedImageRestyleViewLauncher>());
+                pinnedImageRestyleViewLauncher: service.GetRequiredService<IPinnedImageRestyleViewLauncher>(),
+                messenger: service.GetRequiredService<IMessenger>());
 
             window.Show();
             window.Activate();

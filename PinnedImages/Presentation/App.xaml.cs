@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using CommunityToolkit.Mvvm.Messaging;
 using Data.Common.Contracts;
 using Infrastructure.Data;
 using Microsoft.Extensions.Configuration;
@@ -102,6 +103,8 @@ namespace Presentation
             services.AddSingleton<SettingsPageViewModel>();
 
             services.AddTransient<SettingsPage>();
+
+            services.AddSingleton<IMessenger>(implementationInstance: WeakReferenceMessenger.Default);
         }
 
         private const string _appName = "PinnedImages";
