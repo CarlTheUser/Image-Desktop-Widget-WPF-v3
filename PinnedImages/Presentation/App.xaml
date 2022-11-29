@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="StylesDictionaries/Checkboxes.xaml"/>
                 <ResourceDictionary Source="StylesDictionaries/TextBoxes.xaml"/>
                 <ResourceDictionary Source="StylesDictionaries/ColorPickers.xaml"/>
+                <ResourceDictionary Source="StylesDictionaries/ContextMenus.xaml"/>
                 <ResourceDictionary Source="StylesDictionaries/Windows.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -6,6 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:converters="clr-namespace:Presentation.Converters"
       xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
+      xmlns:appproperties="clr-namespace:Presentation.Properties"
       d:DataContext="{d:DesignInstance Type=viewmodels:LibraryPageViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -22,33 +23,18 @@
 
     <Page.Resources>
         <converters:ImageDirectoryPathToBitmapConverter x:Key="ImageDirectoryToThumbnailBitmapConverter" FileName="thumbnail"/>
+        <converters:BooleanToBrushConverter x:Key="BooleanToBrush" BrushWhenTrue="{StaticResource Neutral-500-Brush}">
+            <converters:BooleanToBrushConverter.BrushWhenFalse>
+                <SolidColorBrush Color="{Binding Converter={StaticResource ColorConverter}, Source={x:Static appproperties:Settings.Default}, Path=PrimaryColor}"/>
+            </converters:BooleanToBrushConverter.BrushWhenFalse>
+        </converters:BooleanToBrushConverter>
+        <converters:BooleanToAnythingConverter x:Key="BooleanToAnythingPinnedImageIsPinned" TrueValue="Unpin Image" FalseValue="Pin Image"/>
         <Thickness x:Key="Margin"
                    Left="{StaticResource Thickness-5}"
                    Top="{StaticResource Thickness-0}"
                    Right="{StaticResource Thickness-5}"
                    Bottom="{StaticResource Thickness-0}"/>
     </Page.Resources>
-    
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <TextBlock Text="Library" 
-                   FontSize="{StaticResource Text-2xl}"
-                   Margin="{StaticResource Margin}"/>
-        <ScrollViewer Grid.Row="1" 
-                      VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Auto">
-            <Grid Margin="{StaticResource Margin}">
-                <Button VerticalAlignment="Top" 
-                        HorizontalAlignment="Left"
-                        Style="{StaticResource ActionButton}"
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=ViewModel.PinImageCommand}">Something</Button>
-            </Grid>
-
-        </ScrollViewer>
-    </Grid>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -74,7 +60,7 @@
                                Bottom="{StaticResource Thickness-1}"/>
                 </Border.Padding>
                 <StackPanel Orientation="Vertical">
-                    
+
                     <Button VerticalAlignment="Top" 
                         HorizontalAlignment="Left"
                         Style="{StaticResource ActionButton}"
@@ -120,18 +106,64 @@
                             <DataTemplate>
                                 <Border Background="Transparent">
                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                        <Grid>
-                                            <!--<Button Panel.ZIndex="1" HorizontalAlignment="Right" VerticalAlignment="Top">Button</Button>-->
+                                        <StackPanel.ContextMenu>
+                                            <ContextMenu Name="PinnedImageContextMenu"
+                                                         Style="{StaticResource ModernContextMenu}">
+                                                <MenuItem Header="{Binding IsShown, Converter={StaticResource BooleanToAnythingPinnedImageIsPinned}}"
+                                                          Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=ViewModel.TogglePinCommand}"
+                                                          CommandParameter="{Binding}"
+                                                          Style="{StaticResource ModernMenuItem}">
+                                                    <MenuItem.Icon>
+                                                        <TextBlock
+                                                            Text="&#xf08d;"
+                                                            FontFamily="{StaticResource FontAwesomeFreeSolid}"
+                                                            Foreground="{Binding IsShown, Converter={StaticResource BooleanToBrush}}"/>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem Header="Delete">
+                                                    <MenuItem.Icon>
+                                                        <TextBlock
+                                                            Text="&#xf2ed;"
+                                                            FontFamily="{StaticResource FontAwesomeFreeSolid}"/>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                            </ContextMenu>
+                                        </StackPanel.ContextMenu>
+                                        <Grid HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center">
+                                            <Grid.Margin>
+                                                <Thickness Bottom="{StaticResource Thickness-5}"/>
+                                            </Grid.Margin>
                                             <Image Name="Image"
                                                    Stretch="Uniform"
                                                    MaxWidth="225"
                                                    MaxHeight="150"
                                                    Source="{Binding Directory, Converter={StaticResource ImageDirectoryToThumbnailBitmapConverter}}"
                                                    RenderTransformOrigin="0.5, 0.5">
-                                                <Image.Margin>
-                                                    <Thickness Bottom="{StaticResource Thickness-5}"/>
-                                                </Image.Margin>
                                             </Image>
+                                            <Button 
+                                                    Panel.ZIndex="1"
+                                                    x:Name="PinToggle" 
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Visibility="Collapsed"
+                                                    FontFamily="{StaticResource FontAwesomeFreeSolid}"
+                                                    FontSize="{StaticResource Text-base}"
+                                                    BorderThickness="1"
+                                                    Padding="0"
+                                                    Width="{StaticResource Thickness-8}"
+                                                    Height="{StaticResource Thickness-8}">
+                                                <Button.Background>
+                                                    <SolidColorBrush Color="{StaticResource Neutral-200}"
+                                                                     Opacity=".8"/>
+                                                </Button.Background>
+                                                <Button.Style>
+                                                    <Style TargetType="Button"
+                                                           BasedOn="{StaticResource StandardRoundButton}">
+                                                    </Style>
+                                                </Button.Style>
+                                                &#xf142;
+                                            </Button>
                                         </Grid>
                                         <TextBlock x:Name="Caption" Text="{Binding CaptionText}" 
                                                    MaxWidth="225"
@@ -173,7 +205,12 @@
                                                 <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
                                             </Setter.Value>
                                         </Setter>
-                                        <Setter TargetName="Image" Property="Effect" Value="{StaticResource Shadow-lg}"/>
+                                        <Setter TargetName="Image" 
+                                                Property="Effect" 
+                                                Value="{StaticResource Shadow-lg}"/>
+                                        <Setter TargetName="PinToggle" 
+                                                Property="Visibility" 
+                                                Value="Visible"/>
                                     </Trigger>
                                 </DataTemplate.Triggers>
 

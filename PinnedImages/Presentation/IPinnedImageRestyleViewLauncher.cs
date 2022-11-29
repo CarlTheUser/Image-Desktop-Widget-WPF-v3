@@ -19,6 +19,7 @@ namespace Presentation
         {
             _serviceScopeFactory = serviceScopeFactory;
         }
+
         public void Launch(Models.PinnedImage parameter)
         {
             using IServiceScope scope = _serviceScopeFactory.CreateScope();

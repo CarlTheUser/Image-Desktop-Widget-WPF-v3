@@ -81,8 +81,10 @@ namespace Presentation.ViewModels
                                                                                                 creationTimestamp: item.CreationTimestamp));
         }
 
-        private async Task TogglePin(Models.PinnedImageListItem item)
+        private async Task TogglePin(Models.PinnedImageListItem? item)
         {
+            if(item == null) return;
+
             bool isPinned = item.IsShown;
 
             try
@@ -145,12 +147,14 @@ namespace Presentation.ViewModels
                     out bool isShown,
                     out DateTime creationTimestamp);
 
-                _pinnedImages.Insert(index: 0, item: new Models.PinnedImageListItem(
-                    id: imageId,
-                    directory: imageDirectory,
-                    caption: caption.Text,
-                    isShown: isShown,
-                    creationTimestamp: creationTimestamp));
+                _pinnedImages.Insert(
+                    index: 0, 
+                    item: new Models.PinnedImageListItem(
+                        id: imageId,
+                        directory: imageDirectory,
+                        caption: caption.Text,
+                        isShown: isShown,
+                        creationTimestamp: creationTimestamp));
 
                 _pinnedImageViewLauncher.Launch(parameter: pinnedImage);
             }

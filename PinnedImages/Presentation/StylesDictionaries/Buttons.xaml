@@ -85,6 +85,79 @@
     </Style>
 
     <Style TargetType="Button"
+           x:Key="StandardRoundButton">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background, Converter={StaticResource ForegroundBrushSource}}"/>
+        <Setter Property="BorderThickness" Value="0.5"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Neutral-800-Brush}"/>
+        <Setter Property="Padding">
+            <Setter.Value>
+                <Thickness Left="{StaticResource Thickness-4}"
+                           Top="{StaticResource Thickness-2}"
+                           Right="{StaticResource Thickness-4}"
+                           Bottom="{StaticResource Thickness-2}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="FontSize" Value="{StaticResource Text-sm}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Grid.OpacityMask>
+                            <VisualBrush Visual="{Binding ElementName=ElementBorder}"/>
+                        </Grid.OpacityMask>
+                        <Border x:Name="ElementBorder" 
+                                Background="{TemplateBinding Background}"
+                                Effect="{TemplateBinding Effect}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                ClipToBounds="True">
+                            <Border.CornerRadius>
+                                <CornerRadius TopLeft="{StaticResource Rounded-2xl}"
+                                              TopRight="{StaticResource Rounded-2xl}"
+                                              BottomRight="{StaticResource Rounded-2xl}"
+                                              BottomLeft="{StaticResource Rounded-2xl}"/>
+                            </Border.CornerRadius>
+                            <Grid>
+                                <Rectangle x:Name="Mask"/>
+                                <Border BorderThickness="0"
+                                    Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                  Content="{TemplateBinding Content}"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Mask"
+                                    Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{StaticResource Neutral-300}"
+                                                     Opacity="0.3"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Mask"
+                                    Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush 
+                                        Color="{StaticResource Neutral-300}"
+                                        Opacity=".5"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="Button"
            x:Key="ActionButton"
            BasedOn="{StaticResource StandardButton}">
         <Setter Property="Background">

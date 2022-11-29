@@ -112,7 +112,8 @@ namespace Presentation.ViewModels
                 try
                 {
                     await _changePinnedImageDisplayParameterService.Apply(
-                        imageId: Image.Id, displayParameter: new Shared.DisplayParameter(
+                        imageId: Image.Id, 
+                        displayParameter: new Shared.DisplayParameter(
                             Dimension: Image.Dimension.CreateMemento(),
                             Location: Image.Location.CreateMemento()),
                         cancellationToken: cancellationToken);

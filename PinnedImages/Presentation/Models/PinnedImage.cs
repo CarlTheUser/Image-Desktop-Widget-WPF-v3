@@ -30,6 +30,7 @@ namespace Presentation.Models
             _color = color;
             _frameThickness = frameThickness;
             _rotation = rotation;
+            _corner = corner;
             Caption = caption;
             Shadow = shadow;
             CreationTimestamp = creationTimestamp;

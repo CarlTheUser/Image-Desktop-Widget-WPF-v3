@@ -1,0 +1,105 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="MenuItem"
+           x:Key="ModernMenuItem">
+        <Setter Property="Padding">
+            <Setter.Value>
+                <Thickness Left="{StaticResource Thickness-1}"
+                           Top="{StaticResource Thickness-1}"
+                           Right="{StaticResource Thickness-1}"
+                           Bottom="{StaticResource Thickness-1}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="MenuItem">
+                    <Border x:Name="MenuItemBorder"
+                            Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle x:Name="Mask" Grid.ColumnSpan="2"/>
+                            <ContentPresenter Grid.Column="1" 
+                                              ContentSource="Header"
+                                              RecognizesAccessKey="True"/>
+                            <ContentPresenter 
+                                Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                              ContentSource="Icon"
+                                              RecognizesAccessKey="False"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="Mask"
+                                    Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush 
+                                        Color="{StaticResource Neutral-300}"
+                                        Opacity=".5"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Mask"
+                                    Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush 
+                                        Color="{StaticResource Neutral-300}"
+                                        Opacity=".3"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ContextMenu"
+           x:Key="ModernContextMenu">
+        <Setter Property="BorderBrush" Value="{StaticResource Neutral-300-Brush}" />
+        <Setter Property="BorderThickness">
+            <Setter.Value>
+                <Thickness Left="{StaticResource Thickness-px}" Top="{StaticResource Thickness-px}" Right="{StaticResource Thickness-px}" Bottom="{StaticResource Thickness-px}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Width" Value="{StaticResource Thickness-52}" />
+        <Setter Property="FontSize" Value="{StaticResource Text-sm}" />
+        <Setter Property="Background" Value="{StaticResource Neutral-100-Brush}" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Padding">
+            <Setter.Value>
+                <Thickness Left="{StaticResource Thickness-1}" Top="{StaticResource Thickness-1}" Right="{StaticResource Thickness-1}" Bottom="{StaticResource Thickness-1}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContextMenu">
+                    <Border x:Name="PopUpBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                        <Border.CornerRadius>
+                            <CornerRadius BottomLeft="{StaticResource Rounded-lg}" TopLeft="{StaticResource Rounded-lg}" TopRight="{StaticResource Rounded-lg}" BottomRight="{StaticResource Rounded-lg}" />
+                        </Border.CornerRadius>
+                        <StackPanel IsItemsHost="True" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasDropShadow" Value="True">
+                            <Setter TargetName="PopUpBorder" Property="Effect" Value="{StaticResource Shadow-lg}" />
+                            <Setter TargetName="PopUpBorder" Property="Margin">
+                                <Setter.Value>
+                                    <Thickness Left="{StaticResource Thickness-2}" Top="{StaticResource Thickness-2}" Right="{StaticResource Thickness-2}" Bottom="{StaticResource Thickness-12}" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
