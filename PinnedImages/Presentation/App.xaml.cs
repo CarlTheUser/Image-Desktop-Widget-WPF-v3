@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using CommunityToolkit.Mvvm.Messaging;
 using Data.Common.Contracts;
 using Infrastructure.Data;
 using Microsoft.Extensions.Configuration;
@@ -66,6 +67,10 @@ namespace Presentation
                 s => new LiteDbAllShownPinnedImagesQuery(
                     connectionString: configuration.GetConnectionString("PinnedImages")));
 
+            services.AddTransient<IAsyncQuery<P.PinnedImage?, Shared.ImageId>>(
+                s => new LiteDbPinnedImagesByImageIdQuery(
+                    connectionString: configuration.GetConnectionString("PinnedImages")));
+
             services.AddTransient<IPinImageService>(
                 s => new PinImageService(
                     relativeFolderNameLength: configuration.GetValue<int>("Application:ImageKeeping:RelativeFolderNameLength"),
@@ -89,6 +94,8 @@ namespace Presentation
 
             services.AddSingleton<IUserNotification<Exception>, ErrorNotification>();
 
+            services.AddSingleton<IUserNotification<Presentation.Message>, MessageNotification>();
+
             services.AddSingleton<MainWindowViewLauncher>();
 
             services.AddSingleton<IPinnedImageViewLauncher, PinnedImageViewLauncher>();
@@ -102,6 +109,8 @@ namespace Presentation
             services.AddSingleton<SettingsPageViewModel>();
 
             services.AddTransient<SettingsPage>();
+
+            services.AddSingleton<IMessenger>(implementationInstance: WeakReferenceMessenger.Default);
         }
 
         private const string _appName = "PinnedImages";

@@ -8,6 +8,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource Neutral-300-Brush}"/>
         <Setter Property="Background" Value="{StaticResource Neutral-600-Brush}"/>
         <Setter Property="Foreground" Value="{StaticResource White-Brush}"/>
+        <Setter Property="FontSize" Value="{StaticResource Text-xs}"/>
         <Setter Property="BorderThickness">
             <Setter.Value>
                 <Thickness Left="{StaticResource Thickness-px}"
@@ -26,9 +27,9 @@
         </Setter>
         <Setter Property="Padding">
             <Setter.Value>
-                <Thickness Left="{StaticResource Thickness-4}"
+                <Thickness Left="{StaticResource Thickness-2}"
                            Top="{StaticResource Thickness-2}"
-                           Right="{StaticResource Thickness-4}"
+                           Right="{StaticResource Thickness-2}"
                            Bottom="{StaticResource Thickness-2}"/>
             </Setter.Value>
         </Setter>
@@ -48,7 +49,7 @@
                                           BottomRight="{StaticResource Rounded-md}"/>
                         </Border.CornerRadius>
                         <Grid>
-                            <ContentPresenter/>
+                            <ContentPresenter />
                         </Grid>
                     </Border>
                 </ControlTemplate>

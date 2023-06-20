@@ -30,7 +30,8 @@ namespace Presentation
                 pinnedImage: parameter,
                 logger: service.GetRequiredService<ILogger<PinnedImageRestyleViewModel>>(),
                 restylePinnedImageService: service.GetRequiredService<IRestylePinnedImageService>(),
-                errorNotification: service.GetRequiredService<IUserNotification<Exception>>());
+                errorNotification: service.GetRequiredService<IUserNotification<Exception>>(),
+                messageNotification: service.GetRequiredService<IUserNotification<Presentation.Message>>());
 
             window.ShowDialog();
         }

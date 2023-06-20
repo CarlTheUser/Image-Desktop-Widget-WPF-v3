@@ -17,7 +17,8 @@ namespace Presentation
             Models.PinnedImage pinnedImage,
             ILogger<PinnedImageRestyleViewModel> logger,
             IRestylePinnedImageService restylePinnedImageService,
-            IUserNotification<Exception> errorNotification)
+            IUserNotification<Exception> errorNotification,
+            IUserNotification<Presentation.Message> messageNotification)
         {
             InitializeComponent();
 
@@ -25,6 +26,7 @@ namespace Presentation
                 logger: logger,
                 restylePinnedImageService: restylePinnedImageService,
                 errorNotification: errorNotification,
+                messageNotification: messageNotification,
                 displayHost: this,
                 pinnedImage: pinnedImage);
 

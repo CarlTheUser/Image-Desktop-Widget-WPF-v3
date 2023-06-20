@@ -1,8 +1,11 @@
 ﻿using Application.Services;
 using CommunityToolkit.Mvvm.Input;
+using FluentResults;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using P = Data.Projections;
 namespace Presentation.ViewModels
@@ -12,6 +15,7 @@ namespace Presentation.ViewModels
         private readonly ILogger<PinnedImageRestyleViewModel> _logger;
         private readonly IRestylePinnedImageService _restylePinnedImageService;
         private readonly IUserNotification<Exception> _errorNotification;
+        private readonly IUserNotification<Presentation.Message> _messageNotification;
         private readonly IDisplayHost _displayHost;
         private P.PinnedImage _state;
 
@@ -110,26 +114,28 @@ namespace Presentation.ViewModels
             ILogger<PinnedImageRestyleViewModel> logger,
             IRestylePinnedImageService restylePinnedImageService,
             IUserNotification<Exception> errorNotification,
+            IUserNotification<Presentation.Message> messageNotification,
             IDisplayHost displayHost,
             Models.PinnedImage pinnedImage)
         {
             _logger = logger;
             _restylePinnedImageService = restylePinnedImageService;
             _errorNotification = errorNotification;
+            _messageNotification = messageNotification;
             _displayHost = displayHost;
             PinnedImage = pinnedImage;
             _state = pinnedImage.CreateMemento();
 
-            ApplyChangesCommand = new AsyncRelayCommand(execute: ApplyChanges);
+            ApplyChangesCommand = new AsyncRelayCommand(cancelableExecute: ApplyChangesAsync);
 
             RollbackChangesCommand = new RelayCommand(execute: RollbackChanges);
         }
 
-        private async Task ApplyChanges()
+        private async Task ApplyChangesAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                await _restylePinnedImageService.Apply(
+                Result result = await _restylePinnedImageService.Apply(
                     imageId: PinnedImage.Id,
                     style: new Shared.VisualStyle(
                         Color: new Shared.ImageColor(HexValue: PinnedImage.Color.ToString()),
@@ -137,7 +143,17 @@ namespace Presentation.ViewModels
                         Rotaion: PinnedImage.Rotation,
                         Corner: PinnedImage.Corner,
                         Caption: PinnedImage.Caption.CreateMemento(),
-                        Shadow: PinnedImage.Shadow.CreateMemento()));
+                        Shadow: PinnedImage.Shadow.CreateMemento()),
+                    cancellationToken: cancellationToken);
+
+                if(result.IsFailed)
+                {
+                    _messageNotification.Notify(parameter: new Message(
+                        Title: "Oops",
+                        Value: result.Errors.FirstOrDefault()?.Message ?? "The unknown happened!"));
+
+                    return;
+                }
 
                 _state = PinnedImage.CreateMemento();
 
@@ -146,7 +162,6 @@ namespace Presentation.ViewModels
             catch(Exception ex)
             {
                 _logger.LogError(exception: ex, message: "An error occurred.");
-
                 _errorNotification.Notify(ex);
             }
         }

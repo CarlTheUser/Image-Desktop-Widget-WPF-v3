@@ -1,12 +1,13 @@
 ﻿using Core;
 using Data.Common.Contracts.SpecificationRepositories;
+using FluentResults;
 using Shared;
 
 namespace Application.Services
 {
     public interface IDeletePinnedImageService
     {
-        Task DeletePinnedImage(ImageId imageId, CancellationToken cancellationToken = default);
+        Task<Result> DeletePinnedImage(ImageId imageId, CancellationToken cancellationToken = default);
 
     }
 
@@ -21,14 +22,15 @@ namespace Application.Services
             _pinnedImagesDirectory = pinnedImagesDirectory;
         }
 
-        public async Task DeletePinnedImage(ImageId imageId, CancellationToken cancellationToken = default)
+        public async Task<Result> DeletePinnedImage(ImageId imageId, CancellationToken cancellationToken = default)
         {
-            PinnedImage? pinnedImage = await _repository.FindAsync(specification: new KeySpecification<PinnedImage, ImageId>(key: imageId),
-                                                          cancellationToken: cancellationToken);
+            PinnedImage? pinnedImage = await _repository.FindAsync(
+                specification: new KeySpecification<PinnedImage, ImageId>(key: imageId),
+                cancellationToken: cancellationToken);
 
             if (pinnedImage == null)
             {
-                throw new ApplicationLogicException($"Pinned Image \"{imageId}\" not found.");
+                return Result.Fail(errorMessage: $"Pinned Image \"{imageId}\" not found.");
             }
 
             pinnedImage.Remove();
@@ -36,6 +38,8 @@ namespace Application.Services
             await _repository.SaveAsync(pinnedImage, cancellationToken);
 
             RecursiveDelete(baseDir: new DirectoryInfo(path: Path.Combine(_pinnedImagesDirectory.FullName, pinnedImage.Directory)));
+
+            return Result.Ok();
         }
 
         //https://stackoverflow.com/questions/925192/recursive-delete-of-files-and-directories-in-c-sharp

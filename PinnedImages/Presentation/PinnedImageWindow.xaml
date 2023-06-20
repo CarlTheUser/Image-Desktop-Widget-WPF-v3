@@ -101,10 +101,10 @@
                                Bottom="{StaticResource Thickness-1}"/>
                 </Border.Margin>
                 <Border.Padding>
-                    <Thickness Left="{StaticResource Thickness-1}"
-                               Top="{StaticResource Thickness-1}"
-                               Right="{StaticResource Thickness-1}"
-                               Bottom="{StaticResource Thickness-1}"/>
+                    <Thickness Left="{StaticResource Thickness-0.5}"
+                               Top="{StaticResource Thickness-0.5}"
+                               Right="{StaticResource Thickness-0.5}"
+                               Bottom="{StaticResource Thickness-0.5}"/>
                 </Border.Padding>
                 <Border.CornerRadius>
                     <CornerRadius TopLeft="{StaticResource Rounded-lg}"
@@ -136,7 +136,7 @@
                         <Button Style="{StaticResource StandardButton}"
                                 FontFamily="{StaticResource FontAwesomeFreeSolid}"
                                 Background="{StaticResource Neutral-100-Brush}"
-                                Width="{StaticResource Thickness-12}"
+                                Width="{StaticResource Thickness-10}"
                                 Height="{StaticResource Thickness-8}"
                                 HorizontalContentAlignment="Center"
                                 Margin="0 0 2 0"
@@ -155,17 +155,17 @@
                     Color="{Binding Converter={StaticResource ColorConverter}, Source={x:Static appproperties:Settings.Default}, Path=PrimaryColor}"/>
                             </Button.Foreground>
                             <Button.Padding>
-                                <Thickness Left="{StaticResource Thickness-1}"
-                                       Top="{StaticResource Thickness-1}"
-                                       Right="{StaticResource Thickness-1}"
-                                       Bottom="{StaticResource Thickness-1}"/>
+                                <Thickness Left="{StaticResource Thickness-0.5}"
+                                       Top="{StaticResource Thickness-0.5}"
+                                       Right="{StaticResource Thickness-0.5}"
+                                       Bottom="{StaticResource Thickness-0.5}"/>
                             </Button.Padding>
                             &#xf08d;
                         </Button>
                         <Button Style="{StaticResource StandardButton}"
                                 FontFamily="{StaticResource FontAwesomeFreeSolid}"
                                 Background="{StaticResource Neutral-100-Brush}"
-                                Width="{StaticResource Thickness-12}"
+                                Width="{StaticResource Thickness-10}"
                                 Height="{StaticResource Thickness-8}"
                                 HorizontalContentAlignment="Center"
                                 Content="&#xf2ed;"
@@ -182,16 +182,16 @@
                                 </ToolTip>
                             </Button.ToolTip>
                             <Button.Padding>
-                                <Thickness Left="{StaticResource Thickness-1}"
-                                       Top="{StaticResource Thickness-1}"
-                                       Right="{StaticResource Thickness-1}"
-                                       Bottom="{StaticResource Thickness-1}"/>
+                                <Thickness Left="{StaticResource Thickness-0.5}"
+                                       Top="{StaticResource Thickness-0.5}"
+                                       Right="{StaticResource Thickness-0.5}"
+                                       Bottom="{StaticResource Thickness-0.5}"/>
                             </Button.Padding>
                         </Button>
                         <Button Style="{StaticResource StandardButton}"
                                 FontFamily="{StaticResource FontAwesomeFreeSolid}"
                                 Background="{StaticResource Neutral-100-Brush}"
-                                Width="{StaticResource Thickness-12}"
+                                Width="{StaticResource Thickness-10}"
                                 Height="{StaticResource Thickness-8}"
                                 HorizontalContentAlignment="Center"
                                 Content="&#xf013;"
@@ -217,7 +217,7 @@
                         <Button Style="{StaticResource StandardButton}"
                                 FontFamily="{StaticResource FontAwesomeFreeSolid}"
                                 Background="{StaticResource Neutral-100-Brush}"
-                                Width="{StaticResource Thickness-12}"
+                                Width="{StaticResource Thickness-10}"
                                 Height="{StaticResource Thickness-8}"
                                 HorizontalContentAlignment="Center"
                                 Content="&#xf015;"
@@ -234,10 +234,10 @@
                                 </ToolTip>
                             </Button.ToolTip>
                             <Button.Padding>
-                                <Thickness Left="{StaticResource Thickness-1}"
-                                       Top="{StaticResource Thickness-1}"
-                                       Right="{StaticResource Thickness-1}"
-                                       Bottom="{StaticResource Thickness-1}"/>
+                                <Thickness Left="{StaticResource Thickness-0.5}"
+                                       Top="{StaticResource Thickness-0.5}"
+                                       Right="{StaticResource Thickness-0.5}"
+                                       Bottom="{StaticResource Thickness-0.5}"/>
                             </Button.Padding>
                         </Button>
                     </StackPanel>

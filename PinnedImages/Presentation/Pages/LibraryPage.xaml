@@ -109,6 +109,7 @@
                                         <StackPanel.ContextMenu>
                                             <ContextMenu Name="PinnedImageContextMenu"
                                                          Style="{StaticResource ModernContextMenu}">
+                                                
                                                 <MenuItem Header="{Binding IsShown, Converter={StaticResource BooleanToAnythingPinnedImageIsPinned}}"
                                                           Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=ViewModel.TogglePinCommand}"
                                                           CommandParameter="{Binding}"
@@ -120,7 +121,10 @@
                                                             Foreground="{Binding IsShown, Converter={StaticResource BooleanToBrush}}"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                <MenuItem Header="Delete">
+                                                
+                                                <MenuItem Header="Delete"
+                                                          Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=ViewModel.DeleteImageCommand}"
+                                                          CommandParameter="{Binding}">
                                                     <MenuItem.Icon>
                                                         <TextBlock
                                                             Text="&#xf2ed;"

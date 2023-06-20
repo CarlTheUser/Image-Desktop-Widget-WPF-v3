@@ -4,6 +4,7 @@
     {
         void Notify();
     }
+
     public interface IUserNotification<TParameter>
     {
         void Notify(TParameter parameter);

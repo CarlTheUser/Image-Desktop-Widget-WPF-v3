@@ -1,8 +1,11 @@
 ﻿using Application.Services;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using FluentResults;
 using Microsoft.Extensions.Logging;
 using Presentation.Models;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,13 +14,14 @@ namespace Presentation.ViewModels
     public class PinnedImageViewModel : ViewModelBase
     {
         private readonly ILogger<PinnedImageViewModel> _logger;
-        private readonly IDisplayHost _pinnedImageDisplayHost;
         private readonly MainWindowViewLauncher _mainWindowViewLauncher;
         private readonly IUserNotification<Exception> _errorNotification;
+        private readonly IUserNotification<Presentation.Message> _messageNotification;
         private readonly IDeletePinnedImageService _deletePinnedImageService;
         private readonly IChangePinnedImageDisplayParameterService _changePinnedImageDisplayParameterService;
         private readonly IUnpinImageService _unpinImageService;
         private readonly IPinnedImageRestyleViewLauncher _pinnedImageRestyleViewLauncher;
+        private readonly IMessenger _messenger;
 
         private bool _isDeleted = false;
 
@@ -31,19 +35,20 @@ namespace Presentation.ViewModels
         public PinnedImageViewModel(
             ILogger<PinnedImageViewModel> logger,
             PinnedImage pinnedImage,
-            IDisplayHost pinnedImageDisplayHost,
             MainWindowViewLauncher mainWindowViewLauncher,
             IUserNotification<Exception> errorNotification,
+            IUserNotification<Presentation.Message> messageNotification,
             IDeletePinnedImageService deletePinnedImageService,
             IChangePinnedImageDisplayParameterService changePinnedImageDisplayParameterService,
             IUnpinImageService unpinImageService,
-            IPinnedImageRestyleViewLauncher pinnedImageRestyleViewLauncher)
+            IPinnedImageRestyleViewLauncher pinnedImageRestyleViewLauncher,
+            IMessenger messenger)
         {
             _logger = logger;
             Image = pinnedImage;
-            _pinnedImageDisplayHost = pinnedImageDisplayHost;
             _mainWindowViewLauncher = mainWindowViewLauncher;
             _errorNotification = errorNotification;
+            _messageNotification = messageNotification;
             _deletePinnedImageService = deletePinnedImageService;
             _changePinnedImageDisplayParameterService = changePinnedImageDisplayParameterService;
             _unpinImageService = unpinImageService;
@@ -51,8 +56,9 @@ namespace Presentation.ViewModels
 
             ShowHomeCommand = new RelayCommand(execute: ShowHome);
             OpenSettingsCommand = new RelayCommand(execute: OpenSettings);
-            DeleteCommand = new AsyncRelayCommand(execute: Delete);
-            UnPinCommand = new AsyncRelayCommand(execute: UnPin);
+            DeleteCommand = new AsyncRelayCommand(cancelableExecute: DeleteAsync);
+            UnPinCommand = new AsyncRelayCommand(cancelableExecute: UnPinAsync);
+            _messenger = messenger;
         }
 
         private void ShowHome()
@@ -65,14 +71,22 @@ namespace Presentation.ViewModels
             _pinnedImageRestyleViewLauncher.Launch(parameter: Image);
         }
 
-        private async Task Delete()
+        private async Task DeleteAsync(CancellationToken cancellationToken = default)
         {
             if (!_isDeleted)
             {
                 try
                 {
-                    await _deletePinnedImageService.DeletePinnedImage(
-                    imageId: Image.Id);
+                    Result result = await _deletePinnedImageService.DeletePinnedImage(
+                        imageId: Image.Id,
+                        cancellationToken: cancellationToken);
+
+                    if (result.IsFailed)
+                    {
+                        _messageNotification.Notify(parameter: new Message(
+                            Title: "Oops",
+                            Value: result.Errors.FirstOrDefault()?.Message ?? "The unknown happened!"));
+                    }
 
                     _isDeleted = true;
                 }
@@ -83,16 +97,25 @@ namespace Presentation.ViewModels
                 }
                 finally
                 {
-                    _pinnedImageDisplayHost.Close();
+                    _messenger.Send(message: new Messages.PinnedImageDeletedMessage(ImageId: Image.Id));
                 }
             }
         }
 
-        private async Task UnPin()
+        private async Task UnPinAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                await _unpinImageService.Unpin(imageId: Image.Id);
+                Result result = await _unpinImageService.Unpin(
+                    imageId: Image.Id, 
+                    cancellationToken: cancellationToken);
+
+                if (result.IsFailed)
+                {
+                    _messageNotification.Notify(parameter: new Message(
+                        Title: "Oops",
+                        Value: result.Errors.FirstOrDefault()?.Message ?? "The unknown happened!"));
+                }
             }
             catch (Exception ex)
             {
@@ -101,7 +124,7 @@ namespace Presentation.ViewModels
             }
             finally
             {
-                _pinnedImageDisplayHost.Close();
+                _messenger.Send(message: new Messages.PinnedImageUnpinnedMessage(ImageId: Image.Id));
             }
         }
 

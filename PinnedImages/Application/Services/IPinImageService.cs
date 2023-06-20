@@ -1,4 +1,5 @@
-﻿using Misc.Utilities;
+﻿using FluentResults;
+using Misc.Utilities;
 using Shared;
 using S = Data.Common.Contracts.SpecificationRepositories;
 
@@ -17,7 +18,7 @@ namespace Application.Services
             Caption Caption,
             Shadow Shadow);
 
-        Task<Data.Projections.PinnedImage> PinImage(PinImageRequest request, CancellationToken cancellationToken = default);
+        Task<Result<Data.Projections.PinnedImage>> PinImage(PinImageRequest request, CancellationToken cancellationToken = default);
     }
 
     public class PinImageService : IPinImageService
@@ -42,7 +43,7 @@ namespace Application.Services
             _randomStringGenerator = randomStringGenerator;
         }
 
-        public async Task<Data.Projections.PinnedImage> PinImage(IPinImageService.PinImageRequest request, CancellationToken cancellationToken = default)
+        public async Task<Result<Data.Projections.PinnedImage>> PinImage(IPinImageService.PinImageRequest request, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -115,7 +116,7 @@ namespace Application.Services
                 item: pinnedImage,
                 cancellationToken: cancellationToken);
 
-            return new Data.Projections.PinnedImage(
+            return Result.Ok(value: new Data.Projections.PinnedImage(
                 Id: pinnedImage.Id,
                 Directory: pinnedImage.Directory,
                 Dimension: pinnedImage.Dimension,
@@ -127,7 +128,7 @@ namespace Application.Services
                 Caption: pinnedImage.Caption,
                 Shadow: pinnedImage.Shadow,
                 IsShown: pinnedImage.IsPinned,
-                CreationTimestamp: pinnedImage.CreationTimestamp);
+                CreationTimestamp: pinnedImage.CreationTimestamp));
         }
     }
 }
