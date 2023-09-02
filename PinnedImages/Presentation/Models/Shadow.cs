@@ -8,7 +8,12 @@
         private double _blurRadius;
         private bool _visible;
 
-        public Shadow(double opacity, double depth, double direction, double blurRadius, bool visible)
+        public Shadow(
+            double opacity,
+            double depth,
+            double direction,
+            double blurRadius,
+            bool visible)
         {
             _opacity = opacity;
             _depth = depth;

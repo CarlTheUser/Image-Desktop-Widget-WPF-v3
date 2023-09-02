@@ -6,13 +6,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
       d:DataContext="{d:DesignInstance Type=viewmodels:SettingsPageViewModel}"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
       Title="SettingsPage"
       Name="Root">
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
-            <b:InvokeCommandAction Command="{Binding LoadColorsCommand}"/>
+            <b:InvokeCommandAction Command="{Binding LoadColorsCommand}" />
         </b:EventTrigger>
     </b:Interaction.Triggers>
     <Page.Resources>
@@ -20,36 +21,45 @@
                    Left="{StaticResource Thickness-5}"
                    Top="{StaticResource Thickness-0}"
                    Right="{StaticResource Thickness-5}"
-                   Bottom="{StaticResource Thickness-0}"/>
-        
-        <Style x:Key="ColorButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="Width" Value="{StaticResource Thickness-12}"/>
-            <Setter Property="Height" Value="{StaticResource Thickness-12}"/>
+                   Bottom="{StaticResource Thickness-0}" />
+        <Thickness x:Key="MarginBottom-5"
+                   Left="{StaticResource Thickness-0}"
+                   Top="{StaticResource Thickness-0}"
+                   Right="{StaticResource Thickness-0}"
+                   Bottom="{StaticResource Thickness-5}" />
+        <Style x:Key="ColorButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Width"
+                    Value="{StaticResource Thickness-12}" />
+            <Setter Property="Height"
+                    Value="{StaticResource Thickness-12}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="TheBorder" 
+                        <Border x:Name="TheBorder"
                                 BorderBrush="{TemplateBinding Background}"
                                 Background="{TemplateBinding Background}">
                             <Border.BorderThickness>
                                 <Thickness Left="{StaticResource Thickness-0.5}"
                                            Top="{StaticResource Thickness-0.5}"
                                            Right="{StaticResource Thickness-0.5}"
-                                           Bottom="{StaticResource Thickness-0.5}"/>
+                                           Bottom="{StaticResource Thickness-0.5}" />
                             </Border.BorderThickness>
                             <Border.CornerRadius>
                                 <CornerRadius TopLeft="{StaticResource Rounded-sm}"
                                               TopRight="{StaticResource Rounded-sm}"
                                               BottomRight="{StaticResource Rounded-sm}"
-                                              BottomLeft="{StaticResource Rounded-sm}"/>
+                                              BottomLeft="{StaticResource Rounded-sm}" />
                             </Border.CornerRadius>
-                            <ContentPresenter/>
+                            <ContentPresenter />
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="TheBorder" Property="BorderBrush">
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="TheBorder"
+                                        Property="BorderBrush">
                                     <Setter.Value>
-                                        <SolidColorBrush Color="Black"/>
+                                        <SolidColorBrush Color="Black" />
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
@@ -61,43 +71,44 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
+            <RowDefinition Height="50" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" 
-                   Text="Settings" 
+        <TextBlock Grid.Row="0"
+                   Text="Settings"
                    FontSize="{StaticResource Text-2xl}"
-                   Margin="{StaticResource Margin}"/>
+                   Margin="{StaticResource Margin}" />
 
-        <StackPanel Grid.Row="1" 
+        <StackPanel Grid.Row="1"
                     Margin="{StaticResource Margin}"
                     Orientation="Vertical"
                     HorizontalAlignment="Left"
                     MinWidth="540"
                     MaxWidth="1024">
-            
+
             <Border Background="White"
-                        BorderThickness="1"
-                        BorderBrush="{StaticResource Neutral-300-Brush}"
-                        Effect="{StaticResource Shadow-sm}"
-                        CornerRadius="{StaticResource Corner-Rounded-md}">
+                    BorderThickness="1"
+                    BorderBrush="{StaticResource Neutral-300-Brush}"
+                    Effect="{StaticResource Shadow-sm}"
+                    CornerRadius="{StaticResource Corner-Rounded-md}"
+                    Margin="{StaticResource MarginBottom-5}">
                 <Border.Padding>
                     <Thickness Left="{StaticResource Thickness-1}"
                                Top="{StaticResource Thickness-1}"
                                Right="{StaticResource Thickness-1}"
-                               Bottom="{StaticResource Thickness-1}"/>
+                               Bottom="{StaticResource Thickness-1}" />
                 </Border.Padding>
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Theme Color"
-                                   FontSize="{StaticResource Text-base}"
-                                   Margin="6 0 6 24"/>
+                               FontSize="{StaticResource Text-base}"
+                               Margin="6 0 6 24" />
 
                     <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                  BorderThickness="0"
-                                  HorizontalAlignment="Left"
-                                  ItemsSource="{Binding Path=Colors}">
+                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                              BorderThickness="0"
+                              HorizontalAlignment="Left"
+                              ItemsSource="{Binding Path=Colors}">
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel Orientation="Horizontal">
@@ -113,12 +124,13 @@
 
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Button x:Name="TheButton" Style="{StaticResource ColorButtonStyle}"
+                                <Button x:Name="TheButton"
+                                        Style="{StaticResource ColorButtonStyle}"
                                         DataContext="{Binding}"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=ViewModel.SetColorCommand}"
                                         CommandParameter="{Binding}">
                                     <Button.Background>
-                                        <SolidColorBrush Color="{Binding}"/>
+                                        <SolidColorBrush Color="{Binding}" />
                                     </Button.Background>
                                 </Button>
                             </DataTemplate>
@@ -126,7 +138,8 @@
 
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
-                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Background"
+                                        Value="Transparent" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -135,9 +148,9 @@
                                                     <Thickness Left="{StaticResource Thickness-0.5}"
                                                                Top="{StaticResource Thickness-0.5}"
                                                                Right="{StaticResource Thickness-0.5}"
-                                                               Bottom="{StaticResource Thickness-0.5}"/>
+                                                               Bottom="{StaticResource Thickness-0.5}" />
                                                 </Border.BorderThickness>
-                                                <ContentPresenter/>
+                                                <ContentPresenter />
                                             </Border>
                                         </ControlTemplate>
                                     </Setter.Value>
@@ -148,6 +161,8 @@
                     </ListView>
                 </StackPanel>
             </Border>
+
+
         </StackPanel>
     </Grid>
 </Page>

@@ -20,7 +20,12 @@ namespace Presentation.Models
         }
         public DateTime CreationTimestamp { get; }
 
-        public PinnedImageListItem(Shared.ImageId id, Shared.ImageDirectory directory, string caption, bool isShown, DateTime creationTimestamp)
+        public PinnedImageListItem(
+            Shared.ImageId id,
+            Shared.ImageDirectory directory,
+            string caption,
+            bool isShown,
+            DateTime creationTimestamp)
         {
             Id = id;
             Directory = directory;

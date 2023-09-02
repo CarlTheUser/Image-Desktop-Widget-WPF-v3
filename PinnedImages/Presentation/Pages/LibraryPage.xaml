@@ -106,7 +106,7 @@
                             <DataTemplate>
                                 <Border Background="Transparent">
                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                        <StackPanel.ContextMenu>
+                                        <!--<StackPanel.ContextMenu>
                                             <ContextMenu Name="PinnedImageContextMenu"
                                                          Style="{StaticResource ModernContextMenu}">
                                                 
@@ -132,8 +132,8 @@
                                                     </MenuItem.Icon>
                                                 </MenuItem>
                                             </ContextMenu>
-                                        </StackPanel.ContextMenu>
-                                        <Grid HorizontalAlignment="Center"
+                                        </StackPanel.ContextMenu>-->
+                                        <Grid HorizontalAlignment="Stretch"
                                                   VerticalAlignment="Center">
                                             <Grid.Margin>
                                                 <Thickness Bottom="{StaticResource Thickness-5}"/>
@@ -169,14 +169,15 @@
                                                 &#xf142;
                                             </Button>
                                         </Grid>
-                                        <TextBlock x:Name="Caption" Text="{Binding CaptionText}" 
+                                        <TextBlock x:Name="Caption" 
+                                                   Text="{Binding CaptionText, Mode=OneWay}"
                                                    MaxWidth="225"
                                                    HorizontalAlignment="Center"
                                                    TextWrapping="WrapWithOverflow"
                                                    TextTrimming="WordEllipsis"
                                                    TextAlignment="Justify"
                                                    LineStackingStrategy="BlockLineHeight"
-                                                   MaxHeight="60">
+                                                   MaxHeight="40">
                                             <TextBlock.Margin>
                                                 <Thickness Bottom="{StaticResource Thickness-2}"/>
                                             </TextBlock.Margin>
@@ -206,7 +207,7 @@
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter TargetName="Image" Property="RenderTransform">
                                             <Setter.Value>
-                                                <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                                                <ScaleTransform ScaleX="1.0125" ScaleY="1.0125"/>
                                             </Setter.Value>
                                         </Setter>
                                         <Setter TargetName="Image" 

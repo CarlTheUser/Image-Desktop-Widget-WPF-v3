@@ -183,6 +183,8 @@ namespace Presentation
                 {
                     mainWindowViewLauncher.Launch();
                 }
+
+                //new PlayWindow().Show();
             }
             catch (Exception ex)
             {

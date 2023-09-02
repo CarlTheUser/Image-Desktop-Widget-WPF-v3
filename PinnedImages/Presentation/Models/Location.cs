@@ -5,11 +5,7 @@
         private double _x;
         private double _y;
 
-        public Location(double x, double y)
-        {
-            _x = x;
-            _y = y;
-        }
+        public Location(double x, double y) => (X, Y) = (x, y);
 
         public double X
         {

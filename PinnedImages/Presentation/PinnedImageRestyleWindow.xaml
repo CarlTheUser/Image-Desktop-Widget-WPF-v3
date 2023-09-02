@@ -10,40 +10,74 @@
         Style="{StaticResource MainWindow}"
         d:DataContext="{d:DesignInstance Type=viewmodels:PinnedImageRestyleViewModel}"
         d:Height="800"
-        Title="Style Image" Height="600" Width="540" Closed="Window_Closed">
+        Title="Style Image"
+        Height="600"
+        Width="540"
+        Closed="Window_Closed">
     <Window.Resources>
-        <converters:FrameThicknessToDoubleConverter x:Key="FrameThicknessConverter"/>
-        <converters:RotationToDoubleConverter x:Key="RotationConverter"/>
-        <converters:CornerToDoubleConverter x:Key="CornerConverter"/>
-        <GridLengthConverter x:Key="GridLengthConverter"/>
-        <Thickness x:Key="SettingItemMargin" 
+        <converters:FrameThicknessToDoubleConverter x:Key="FrameThicknessConverter" />
+        <converters:RotationToDoubleConverter x:Key="RotationConverter" />
+        <converters:CornerToDoubleConverter x:Key="CornerConverter" />
+        <GridLengthConverter x:Key="GridLengthConverter" />
+        <Thickness x:Key="SettingItemMargin"
                    Left="{StaticResource Thickness-0}"
                    Top="{StaticResource Thickness-0.5}"
                    Right="{StaticResource Thickness-0}"
-                   Bottom="{StaticResource Thickness-0.5}"/>
-        <Thickness
-            x:Key="SettingItemInnerContentMargin"
-            Left="{StaticResource Thickness-10}"
-            Top="{StaticResource Thickness-1}"
-            Right="{StaticResource Thickness-4}"
-            Bottom="{StaticResource Thickness-4}"/>
+                   Bottom="{StaticResource Thickness-0.5}" />
+        <Thickness x:Key="SettingItemInnerContentMargin"
+                   Left="{StaticResource Thickness-10}"
+                   Top="{StaticResource Thickness-1}"
+                   Right="{StaticResource Thickness-4}"
+                   Bottom="{StaticResource Thickness-4}" />
+        <Style x:Key="BasePresetButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Width"
+                    Value="{StaticResource Thickness-12}" />
+            <Setter Property="Height"
+                    Value="{StaticResource Thickness-12}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="TheBorder"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Border.CornerRadius>
+                                <CornerRadius TopLeft="{StaticResource Rounded-sm}"
+                                              TopRight="{StaticResource Rounded-sm}"
+                                              BottomRight="{StaticResource Rounded-sm}"
+                                              BottomLeft="{StaticResource Rounded-sm}" />
+                            </Border.CornerRadius>
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="TheBorder"
+                                        Property="BorderBrush">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="Black" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <!--<Window.Style>
         <Style TargetType="Window"></Style>
     </Window.Style>-->
-    <ScrollViewer 
-        HorizontalScrollBarVisibility="Hidden"
-        VerticalScrollBarVisibility="Auto">
-        <StackPanel 
-            Width="480"
-            HorizontalAlignment="Left">
+    <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                  VerticalScrollBarVisibility="Auto">
+        <StackPanel Width="480"
+                    HorizontalAlignment="Left">
             <StackPanel.Margin>
-                <Thickness 
-                    Left="{StaticResource Thickness-5}"
-                    Top="{StaticResource Thickness-5}"
-                    Right="{StaticResource Thickness-5}"
-                    Bottom="{StaticResource Thickness-5}"
-                    />
+                <Thickness Left="{StaticResource Thickness-5}"
+                           Top="{StaticResource Thickness-5}"
+                           Right="{StaticResource Thickness-5}"
+                           Bottom="{StaticResource Thickness-5}" />
             </StackPanel.Margin>
 
             <!--Color-->
@@ -57,9 +91,9 @@
                 <StackPanel Orientation="Vertical">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0"
                                 Width="{StaticResource Thickness-14}"
@@ -70,32 +104,29 @@
                                        Text="&#xf53f;"
                                        FontSize="{StaticResource Text-lg}"
                                        VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
+                                       HorizontalAlignment="Center" />
                         </Border>
                         <StackPanel Grid.Column="1"
                                     Orientation="Vertical"
                                     VerticalAlignment="Center">
-                            <TextBlock Text="Colors"
-                                       />
+                            <TextBlock Text="Colors" />
                             <TextBlock Text="Set image color"
                                        FontSize="{StaticResource Text-xs}"
-                                       Foreground="{StaticResource Neutral-500-Brush}"/>
+                                       Foreground="{StaticResource Neutral-500-Brush}" />
                         </StackPanel>
-                        <Grid 
-                            Grid.Column="2">
-                            <xctk:ColorPicker 
-                                ColorMode="ColorCanvas"
-                                VerticalAlignment="Center"
-                                SelectedColor="{Binding PinnedImage.Color}">
+                        <Grid Grid.Column="2">
+                            <xctk:ColorPicker ColorMode="ColorCanvas"
+                                              VerticalAlignment="Center"
+                                              SelectedColor="{Binding PinnedImage.Color}">
                                 <xctk:ColorPicker.Margin>
-                                    <Thickness Right="{StaticResource Thickness-4}"/>
+                                    <Thickness Right="{StaticResource Thickness-4}" />
                                 </xctk:ColorPicker.Margin>
                             </xctk:ColorPicker>
                         </Grid>
                     </Grid>
                 </StackPanel>
-
             </Border>
+            <!--End of Color-->
 
             <!--Frame Thickness-->
             <Border Background="{StaticResource White-Brush}"
@@ -108,9 +139,9 @@
                 <StackPanel Orientation="Vertical">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0"
                                 Width="{StaticResource Thickness-14}"
@@ -121,53 +152,124 @@
                                        Text="&#xf545;"
                                        FontSize="{StaticResource Text-lg}"
                                        VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
+                                       HorizontalAlignment="Center" />
                         </Border>
                         <StackPanel Grid.Column="1"
                                     Orientation="Vertical"
                                     VerticalAlignment="Center">
-                            <TextBlock Text="Frame Thickness"
-                                       />
+                            <TextBlock Text="Frame Thickness" />
                             <TextBlock Text="Set image thickness"
                                        FontSize="{StaticResource Text-xs}"
-                                       Foreground="{StaticResource Neutral-500-Brush}"/>
+                                       Foreground="{StaticResource Neutral-500-Brush}" />
                         </StackPanel>
-                        <Grid 
-                            Grid.Column="2"
-                            VerticalAlignment="Center">
+                        <Grid Grid.Column="2"
+                              VerticalAlignment="Center">
                             <Grid.Margin>
-                                <Thickness Right="{StaticResource Thickness-4}"/>
+                                <Thickness Right="{StaticResource Thickness-4}" />
                             </Grid.Margin>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="42"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock 
-                                Grid.Column="0" 
-                                d:Text="100"
-                                Text="{Binding PinnedImage.FrameThickness.Value, StringFormat=0.##}">
+                            <TextBlock Grid.Column="0"
+                                       d:Text="100"
+                                       Text="{Binding PinnedImage.FrameThickness.Value, StringFormat=0.##}">
                                 <TextBlock.Margin>
-                                    <Thickness Right="{StaticResource Thickness-2}"/>
+                                    <Thickness Right="{StaticResource Thickness-2}" />
                                 </TextBlock.Margin>
                             </TextBlock>
                             <Slider Grid.Column="1"
                                     Style="{StaticResource FlatSlider}"
                                     Minimum="0"
                                     Maximum="20"
-                                    Value="{Binding PinnedImage.FrameThickness, Converter={StaticResource FrameThicknessConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Value="{Binding PinnedImage.FrameThickness, Converter={StaticResource FrameThicknessConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </Grid>
 
-                    <StackPanel 
-                        Orientation="Vertical"
-                        Margin="{StaticResource SettingItemInnerContentMargin}">
-                        <TextBlock 
-                            Text="Presets"
-                            />
+                    <StackPanel Orientation="Vertical"
+                                Margin="{StaticResource SettingItemInnerContentMargin}">
+                        <TextBlock Text="Presets" />
+                        
+                        <ListView BorderThickness="0"
+                                  HorizontalAlignment="Left"
+                                  ItemsSource="{Binding Path=FrameThicknessPresets}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal">
+                                    </WrapPanel>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+
+                            <ListView.Template>
+                                <ControlTemplate>
+                                    <ItemsPresenter />
+                                </ControlTemplate>
+                            </ListView.Template>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <Button x:Name="TheButton"
+                                                Style="{StaticResource BasePresetButtonStyle}"
+                                                Background="White"
+                                                DataContext="{Binding}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ViewModel.ApplyFrameThicknessPresetCommand}"
+                                                CommandParameter="{Binding}"
+                                                BorderThickness="1"
+                                                BorderBrush="{StaticResource Neutral-300-Brush}">
+                                            <Viewbox>
+                                                <Canvas Width="100"
+                                                        Height="100"
+                                                        Background="White">
+                                                    <Path Data="M 33.3,100 L 33.3,33.3 L 100,33.3"
+                                                          Stroke="{StaticResource Neutral-800-Brush}"
+                                                          StrokeThickness="{Binding Value.Value}" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Button>
+                                        <TextBlock Text="{Binding Mode=OneTime, Path=Description}"
+                                                   FontSize="{StaticResource Text-xs}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   HorizontalAlignment="Center"
+                                                   MaxWidth="{Binding ElementName=TheButton, Path=ActualWidth}">
+                                            <TextBlock.ToolTip>
+                                                <ToolTip Style="{StaticResource ModernToolTip}"
+                                                         FontFamily="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=FontFamily}"
+                                                         Content="{Binding Description}">
+                                                </ToolTip>
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                <Border BorderBrush="Transparent">
+                                                    <Border.BorderThickness>
+                                                        <Thickness Left="{StaticResource Thickness-0.5}"
+                                                                   Top="{StaticResource Thickness-0.5}"
+                                                                   Right="{StaticResource Thickness-0.5}"
+                                                                   Bottom="{StaticResource Thickness-0.5}" />
+                                                    </Border.BorderThickness>
+                                                    <ContentPresenter />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
                     </StackPanel>
                 </StackPanel>
 
             </Border>
+            <!--End of Frame Thickness-->
 
             <!--Rotation-->
             <Border Background="{StaticResource White-Brush}"
@@ -180,9 +282,9 @@
                 <StackPanel Orientation="Vertical">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0"
                                 Width="{StaticResource Thickness-14}"
@@ -193,33 +295,30 @@
                                        Text="&#xf2f9;"
                                        FontSize="{StaticResource Text-lg}"
                                        VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
+                                       HorizontalAlignment="Center" />
                         </Border>
                         <StackPanel Grid.Column="1"
                                     Orientation="Vertical"
                                     VerticalAlignment="Center">
-                            <TextBlock Text="Rotation"
-                                       />
+                            <TextBlock Text="Rotation" />
                             <TextBlock Text="Set image rotation"
                                        FontSize="{StaticResource Text-xs}"
-                                       Foreground="{StaticResource Neutral-500-Brush}"/>
+                                       Foreground="{StaticResource Neutral-500-Brush}" />
                         </StackPanel>
-                        <Grid 
-                            Grid.Column="2"
-                            VerticalAlignment="Center">
+                        <Grid Grid.Column="2"
+                              VerticalAlignment="Center">
                             <Grid.Margin>
-                                <Thickness Right="{StaticResource Thickness-4}"/>
+                                <Thickness Right="{StaticResource Thickness-4}" />
                             </Grid.Margin>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="42"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock 
-                                Grid.Column="0" 
-                                d:Text="100"
-                                Text="{Binding PinnedImage.Rotation.Angle, StringFormat=0.##}">
+                            <TextBlock Grid.Column="0"
+                                       d:Text="100"
+                                       Text="{Binding PinnedImage.Rotation.Angle, StringFormat=0.##}">
                                 <TextBlock.Margin>
-                                    <Thickness Right="{StaticResource Thickness-2}"/>
+                                    <Thickness Right="{StaticResource Thickness-2}" />
                                 </TextBlock.Margin>
                             </TextBlock>
                             <Slider Grid.Column="1"
@@ -227,20 +326,105 @@
                                     Minimum="0"
                                     Maximum="360"
                                     Interval="1"
-                                    Value="{Binding PinnedImage.Rotation, Converter={StaticResource RotationConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Value="{Binding PinnedImage.Rotation, Converter={StaticResource RotationConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </Grid>
 
-                    <StackPanel 
-                        Orientation="Vertical"
-                        Margin="{StaticResource SettingItemInnerContentMargin}">
-                        <TextBlock 
-                            Text="Presets"
-                            />
+                    <StackPanel Orientation="Vertical"
+                                Margin="{StaticResource SettingItemInnerContentMargin}">
+                        <TextBlock Text="Presets" />
+
+                        <ListView BorderThickness="0"
+                                  HorizontalAlignment="Left"
+                                  ItemsSource="{Binding Path=RotationPresets}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal">
+                                    </WrapPanel>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+
+                            <ListView.Template>
+                                <ControlTemplate>
+                                    <ItemsPresenter />
+                                </ControlTemplate>
+                            </ListView.Template>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <Button x:Name="TheButton"
+                                                Style="{StaticResource BasePresetButtonStyle}"
+                                                Background="White"
+                                                DataContext="{Binding}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ViewModel.ApplyRotationPresetCommand}"
+                                                CommandParameter="{Binding}"
+                                                BorderThickness="1"
+                                                BorderBrush="{StaticResource Neutral-300-Brush}">
+                                            <Viewbox>
+                                                <Canvas Width="100"
+                                                        Height="100"
+                                                        Background="White">
+                                                    <Rectangle Width="70"
+                                                               Height="70"
+                                                               Stroke="{StaticResource Neutral-800-Brush}"
+                                                               StrokeThickness="{StaticResource Thickness-px}"
+                                                               RadiusX="2"
+                                                               RadiusY="2"
+                                                               Canvas.Top="15"
+                                                               Canvas.Right="15">
+                                                        <Rectangle.RenderTransform>
+                                                            <RotateTransform Angle="{Binding Value.Angle}"
+                                                                             CenterX="35"
+                                                                             CenterY="35" />
+                                                        </Rectangle.RenderTransform>
+                                                    </Rectangle>
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Button>
+                                        <TextBlock Text="{Binding Mode=OneTime, Path=Description}"
+                                                   FontSize="{StaticResource Text-xs}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   HorizontalAlignment="Center"
+                                                   MaxWidth="{Binding ElementName=TheButton, Path=ActualWidth}">
+                                            <TextBlock.ToolTip>
+                                                <ToolTip Style="{StaticResource ModernToolTip}"
+                                                         FontFamily="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=FontFamily}"
+                                                         Content="{Binding Description}">
+                                                </ToolTip>
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                <Border BorderBrush="Transparent">
+                                                    <Border.BorderThickness>
+                                                        <Thickness Left="{StaticResource Thickness-0.5}"
+                                                                   Top="{StaticResource Thickness-0.5}"
+                                                                   Right="{StaticResource Thickness-0.5}"
+                                                                   Bottom="{StaticResource Thickness-0.5}" />
+                                                    </Border.BorderThickness>
+                                                    <ContentPresenter />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
                     </StackPanel>
                 </StackPanel>
 
             </Border>
+            <!--End of Rotation-->
 
             <!--Corner Radius-->
             <Border Background="{StaticResource White-Brush}"
@@ -253,9 +437,9 @@
                 <StackPanel Orientation="Vertical">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0"
                                 Width="{StaticResource Thickness-14}"
@@ -266,53 +450,132 @@
                                        Text="&#xf546;"
                                        FontSize="{StaticResource Text-lg}"
                                        VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
+                                       HorizontalAlignment="Center" />
                         </Border>
                         <StackPanel Grid.Column="1"
                                     Orientation="Vertical"
                                     VerticalAlignment="Center">
-                            <TextBlock Text="Corner Radius"
-                                       />
+                            <TextBlock Text="Corner Radius" />
                             <TextBlock Text="Set image corner radius"
                                        FontSize="{StaticResource Text-xs}"
-                                       Foreground="{StaticResource Neutral-500-Brush}"/>
+                                       Foreground="{StaticResource Neutral-500-Brush}" />
                         </StackPanel>
-                        <Grid 
-                            Grid.Column="2"
-                            VerticalAlignment="Center">
+                        <Grid Grid.Column="2"
+                              VerticalAlignment="Center">
                             <Grid.Margin>
-                                <Thickness Right="{StaticResource Thickness-4}"/>
+                                <Thickness Right="{StaticResource Thickness-4}" />
                             </Grid.Margin>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="42"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock 
-                                Grid.Column="0" 
-                                d:Text="100"
-                                Text="{Binding PinnedImage.Corner.Radius, StringFormat=0.##}">
+                            <TextBlock Grid.Column="0"
+                                       d:Text="100"
+                                       Text="{Binding PinnedImage.Corner.Radius, StringFormat=0.##}">
                                 <TextBlock.Margin>
-                                    <Thickness Right="{StaticResource Thickness-2}"/>
+                                    <Thickness Right="{StaticResource Thickness-2}" />
                                 </TextBlock.Margin>
                             </TextBlock>
                             <Slider Grid.Column="1"
                                     Style="{StaticResource FlatSlider}"
                                     Minimum="0"
                                     Maximum="20"
-                                    Value="{Binding PinnedImage.Corner, Converter={StaticResource CornerConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Value="{Binding PinnedImage.Corner, Converter={StaticResource CornerConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </Grid>
 
-                    <StackPanel 
-                        Orientation="Vertical"
-                        Margin="{StaticResource SettingItemInnerContentMargin}">
-                        <TextBlock 
-                            Text="Presets"
-                            />
+                    <StackPanel Orientation="Vertical"
+                                Margin="{StaticResource SettingItemInnerContentMargin}">
+                        <TextBlock Text="Presets" />
+
+                        <ListView BorderThickness="0"
+                                  HorizontalAlignment="Left"
+                                  ItemsSource="{Binding Path=CornerPresets}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal">
+                                    </WrapPanel>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+
+                            <ListView.Template>
+                                <ControlTemplate>
+                                    <ItemsPresenter />
+                                </ControlTemplate>
+                            </ListView.Template>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <Button x:Name="TheButton"
+                                                Style="{StaticResource BasePresetButtonStyle}"
+                                                Background="White"
+                                                DataContext="{Binding}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ViewModel.ApplyCornerPresetCommand}"
+                                                CommandParameter="{Binding}"
+                                                BorderThickness="1"
+                                                BorderBrush="{StaticResource Neutral-300-Brush}">
+                                            <Viewbox>
+                                                <Canvas Width="100"
+                                                        Height="100"
+                                                        Background="White"
+                                                        ClipToBounds="True">
+                                                    <Rectangle StrokeThickness="20"
+                                                               Stroke="{StaticResource Neutral-800-Brush}"
+                                                               Height="100"
+                                                               Width="100"
+                                                               RadiusX="{Binding Value.Radius}"
+                                                               RadiusY="{Binding Value.Radius}"
+                                                               Canvas.Left="25"
+                                                               Canvas.Top="25">
+                                                    </Rectangle>
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Button>
+                                        <TextBlock Text="{Binding Mode=OneTime, Path=Description}"
+                                                   FontSize="{StaticResource Text-xs}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   HorizontalAlignment="Center"
+                                                   MaxWidth="{Binding ElementName=TheButton, Path=ActualWidth}">
+                                            <TextBlock.ToolTip>
+                                                <ToolTip Style="{StaticResource ModernToolTip}"
+                                                         FontFamily="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=FontFamily}"
+                                                         Content="{Binding Description}">
+                                                </ToolTip>
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                <Border BorderBrush="Transparent">
+                                                    <Border.BorderThickness>
+                                                        <Thickness Left="{StaticResource Thickness-0.5}"
+                                                                   Top="{StaticResource Thickness-0.5}"
+                                                                   Right="{StaticResource Thickness-0.5}"
+                                                                   Bottom="{StaticResource Thickness-0.5}" />
+                                                    </Border.BorderThickness>
+                                                    <ContentPresenter />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                        
                     </StackPanel>
                 </StackPanel>
 
             </Border>
+            <!--End of Corner Radius-->
 
             <!--Caption-->
             <Border Background="{StaticResource White-Brush}"
@@ -325,9 +588,9 @@
                 <StackPanel Orientation="Vertical">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0"
                                 Width="{StaticResource Thickness-14}"
@@ -338,51 +601,43 @@
                                        Text="&#xf031;"
                                        FontSize="{StaticResource Text-lg}"
                                        VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
+                                       HorizontalAlignment="Center" />
                         </Border>
-                        <StackPanel 
-                            Grid.Column="1"
-                            Orientation="Vertical"
-                            VerticalAlignment="Center">
-                            <TextBlock 
-                                Text="Caption"
-                                />
-                            <TextBlock 
-                                Text="Enable or disable, and set image caption text"
-                                FontSize="{StaticResource Text-xs}"
-                                Foreground="{StaticResource Neutral-500-Brush}"/>
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Vertical"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="Caption" />
+                            <TextBlock Text="Enable or disable, and set image caption text"
+                                       FontSize="{StaticResource Text-xs}"
+                                       Foreground="{StaticResource Neutral-500-Brush}" />
                         </StackPanel>
 
-                        <Grid 
-                            Grid.Column="2"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Right">
+                        <Grid Grid.Column="2"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Right">
                             <Grid.Margin>
-                                <Thickness Right="{StaticResource Thickness-4}"/>
+                                <Thickness Right="{StaticResource Thickness-4}" />
                             </Grid.Margin>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock 
-                                Grid.Column="0" 
-                                Text="Off">
+                            <TextBlock Grid.Column="0"
+                                       Text="Off">
                                 <TextBlock.Margin>
-                                    <Thickness Right="{StaticResource Thickness-2}"/>
+                                    <Thickness Right="{StaticResource Thickness-2}" />
                                 </TextBlock.Margin>
                             </TextBlock>
-                            <CheckBox 
-                                Grid.Column="1" 
-                                Style="{StaticResource ToggleCheckBox}"
-                                IsChecked="{Binding PinnedImage.Caption.Visible}"/>
+                            <CheckBox Grid.Column="1"
+                                      Style="{StaticResource ToggleCheckBox}"
+                                      IsChecked="{Binding PinnedImage.Caption.Visible}" />
                         </Grid>
                     </Grid>
-                    <StackPanel
-                        Orientation="Vertical"
-                        Margin="{StaticResource SettingItemInnerContentMargin}">
+                    <StackPanel Orientation="Vertical"
+                                Margin="{StaticResource SettingItemInnerContentMargin}">
                         <TextBlock Text="Caption text">
                             <TextBlock.Margin>
-                                <Thickness Bottom="{StaticResource Thickness-1}"/>
+                                <Thickness Bottom="{StaticResource Thickness-1}" />
                             </TextBlock.Margin>
                         </TextBlock>
                         <TextBox Style="{StaticResource FlatTextBox}"
@@ -391,130 +646,111 @@
                                  HorizontalAlignment="Stretch"
                                  TextWrapping="Wrap"
                                  Text="{Binding PinnedImage.Caption.Text, UpdateSourceTrigger=PropertyChanged}"
-                                 IsEnabled="{Binding PinnedImage.Caption.Visible}"/>
+                                 IsEnabled="{Binding PinnedImage.Caption.Visible}" />
                     </StackPanel>
                 </StackPanel>
 
             </Border>
+            <!--End of Caption-->
 
             <!--Shadow-->
-            <Border 
-                Background="{StaticResource White-Brush}"
-                BorderThickness="1"
-                BorderBrush="{StaticResource Neutral-300-Brush}"
-                Effect="{StaticResource Shadow-sm}"
-                CornerRadius="{StaticResource Corner-Rounded-md}"
-                Margin="{StaticResource SettingItemMargin}">
+            <Border Background="{StaticResource White-Brush}"
+                    BorderThickness="1"
+                    BorderBrush="{StaticResource Neutral-300-Brush}"
+                    Effect="{StaticResource Shadow-sm}"
+                    CornerRadius="{StaticResource Corner-Rounded-md}"
+                    Margin="{StaticResource SettingItemMargin}">
 
                 <StackPanel Orientation="Vertical">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
-                        <Border 
-                            Grid.Column="0"
-                            Width="{StaticResource Thickness-14}"
-                            Height="{StaticResource Thickness-14}"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center">
-                            <TextBlock 
-                                FontFamily="{StaticResource FontAwesomeFreeSolid}"
-                                Text="&#xf111;"
-                                FontSize="{StaticResource Text-lg}"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                />
+                        <Border Grid.Column="0"
+                                Width="{StaticResource Thickness-14}"
+                                Height="{StaticResource Thickness-14}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+                            <TextBlock FontFamily="{StaticResource FontAwesomeFreeSolid}"
+                                       Text="&#xf111;"
+                                       FontSize="{StaticResource Text-lg}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center" />
                         </Border>
-                        <StackPanel 
-                            Grid.Column="1"
-                            Orientation="Vertical"
-                            VerticalAlignment="Center">
-                            <TextBlock 
-                                Text="Shadow"
-                                
-                                />
-                            <TextBlock 
-                                Text="Enable or disable, and set image shadow properties"
-                                FontSize="{StaticResource Text-xs}"
-                                Foreground="{StaticResource Neutral-500-Brush}"
-                                TextWrapping="Wrap"
-                                />
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Vertical"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="Shadow" />
+                            <TextBlock Text="Enable or disable, and set image shadow properties"
+                                       FontSize="{StaticResource Text-xs}"
+                                       Foreground="{StaticResource Neutral-500-Brush}"
+                                       TextWrapping="Wrap" />
                         </StackPanel>
 
-                        <Grid 
-                            Grid.Column="2"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Right">
+                        <Grid Grid.Column="2"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Right">
                             <Grid.Margin>
-                                <Thickness Right="{StaticResource Thickness-4}"/>
+                                <Thickness Right="{StaticResource Thickness-4}" />
                             </Grid.Margin>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock 
-                                Grid.Column="0" 
-                                Text="Off">
+                            <TextBlock Grid.Column="0"
+                                       Text="Off">
                                 <TextBlock.Margin>
-                                    <Thickness Right="{StaticResource Thickness-2}"/>
+                                    <Thickness Right="{StaticResource Thickness-2}" />
                                 </TextBlock.Margin>
                             </TextBlock>
-                            <CheckBox 
-                                Grid.Column="1" 
-                                Style="{StaticResource ToggleCheckBox}"
-                                IsChecked="{Binding PinnedImage.Shadow.Visible}"/>
+                            <CheckBox Grid.Column="1"
+                                      Style="{StaticResource ToggleCheckBox}"
+                                      IsChecked="{Binding PinnedImage.Shadow.Visible}" />
                         </Grid>
                     </Grid>
-                    <Grid
-                        Margin="{StaticResource SettingItemInnerContentMargin}">
+                    <Grid Margin="{StaticResource SettingItemInnerContentMargin}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="44"/>
-                            <RowDefinition Height="44"/>
-                            <RowDefinition Height="44"/>
-                            <RowDefinition Height="44"/>
+                            <RowDefinition Height="44" />
+                            <RowDefinition Height="44" />
+                            <RowDefinition Height="44" />
+                            <RowDefinition Height="44" />
                         </Grid.RowDefinitions>
-                        <TextBlock 
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            Text="Opacity"
-                            VerticalAlignment="Center"/>
-                        <TextBlock 
-                            Grid.Column="0"
-                            Grid.Row="1"
-                            Text="Depth"
-                            VerticalAlignment="Center"/>
-                        <TextBlock 
-                            Grid.Column="0"
-                            Grid.Row="2"
-                            Text="Direction"
-                            VerticalAlignment="Center"/>
-                        <TextBlock 
-                            Grid.Column="0"
-                            Grid.Row="3"
-                            Text="Blur Radius"
-                            VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="0"
+                                   Text="Opacity"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="1"
+                                   Text="Depth"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="2"
+                                   Text="Direction"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="3"
+                                   Text="Blur Radius"
+                                   VerticalAlignment="Center" />
 
                         <!--Opacity Slider-->
-                        <Grid 
-                            Grid.Column="2"
-                            Grid.Row="0"
-                            VerticalAlignment="Center">
+                        <Grid Grid.Column="2"
+                              Grid.Row="0"
+                              VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="42"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock 
-                                Grid.Column="0" 
-                                d:Text="100"
-                                Text="{Binding PinnedImage.Shadow.Opacity,Mode=OneWay, StringFormat=0.##}">
+                            <TextBlock Grid.Column="0"
+                                       d:Text="100"
+                                       Text="{Binding PinnedImage.Shadow.Opacity,Mode=OneWay, StringFormat=0.##}">
                                 <TextBlock.Margin>
-                                    <Thickness Right="{StaticResource Thickness-2}"/>
+                                    <Thickness Right="{StaticResource Thickness-2}" />
                                 </TextBlock.Margin>
                             </TextBlock>
                             <Slider Grid.Column="1"
@@ -522,24 +758,22 @@
                                     Minimum="0"
                                     Maximum="1"
                                     Value="{Binding PinnedImage.Shadow.Opacity, UpdateSourceTrigger=PropertyChanged}"
-                                    IsEnabled="{Binding PinnedImage.Shadow.Visible}"/>
+                                    IsEnabled="{Binding PinnedImage.Shadow.Visible}" />
                         </Grid>
 
                         <!--Depth Slider-->
-                        <Grid 
-                            Grid.Column="2"
-                            Grid.Row="1"
-                            VerticalAlignment="Center">
+                        <Grid Grid.Column="2"
+                              Grid.Row="1"
+                              VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="42"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock 
-                                Grid.Column="0" 
-                                d:Text="100"
-                                Text="{Binding PinnedImage.Shadow.Depth,Mode=OneWay, StringFormat=0.##}">
+                            <TextBlock Grid.Column="0"
+                                       d:Text="100"
+                                       Text="{Binding PinnedImage.Shadow.Depth,Mode=OneWay, StringFormat=0.##}">
                                 <TextBlock.Margin>
-                                    <Thickness Right="{StaticResource Thickness-2}"/>
+                                    <Thickness Right="{StaticResource Thickness-2}" />
                                 </TextBlock.Margin>
                             </TextBlock>
                             <Slider Grid.Column="1"
@@ -548,24 +782,22 @@
                                     Maximum="20"
                                     Interval="1"
                                     Value="{Binding PinnedImage.Shadow.Depth, UpdateSourceTrigger=PropertyChanged}"
-                                    IsEnabled="{Binding PinnedImage.Shadow.Visible}"/>
+                                    IsEnabled="{Binding PinnedImage.Shadow.Visible}" />
                         </Grid>
 
                         <!--Direction Slider-->
-                        <Grid 
-                            Grid.Column="2"
-                            Grid.Row="2"
-                            VerticalAlignment="Center">
+                        <Grid Grid.Column="2"
+                              Grid.Row="2"
+                              VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="42"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock 
-                                Grid.Column="0" 
-                                d:Text="100"
-                                Text="{Binding PinnedImage.Shadow.Direction,Mode=OneWay, StringFormat=0.##}">
+                            <TextBlock Grid.Column="0"
+                                       d:Text="100"
+                                       Text="{Binding PinnedImage.Shadow.Direction,Mode=OneWay, StringFormat=0.##}">
                                 <TextBlock.Margin>
-                                    <Thickness Right="{StaticResource Thickness-2}"/>
+                                    <Thickness Right="{StaticResource Thickness-2}" />
                                 </TextBlock.Margin>
                             </TextBlock>
                             <Slider Grid.Column="1"
@@ -574,24 +806,22 @@
                                     Maximum="360"
                                     Interval="1"
                                     Value="{Binding PinnedImage.Shadow.Direction, UpdateSourceTrigger=PropertyChanged}"
-                                    IsEnabled="{Binding PinnedImage.Shadow.Visible}"/>
+                                    IsEnabled="{Binding PinnedImage.Shadow.Visible}" />
                         </Grid>
 
                         <!--Blur Radius Slider-->
-                        <Grid 
-                            Grid.Column="2"
-                            Grid.Row="3"
-                            VerticalAlignment="Center">
+                        <Grid Grid.Column="2"
+                              Grid.Row="3"
+                              VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="42"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock 
-                                Grid.Column="0" 
-                                d:Text="100"
-                                Text="{Binding PinnedImage.Shadow.BlurRadius,Mode=OneWay, StringFormat=0.##}">
+                            <TextBlock Grid.Column="0"
+                                       d:Text="100"
+                                       Text="{Binding PinnedImage.Shadow.BlurRadius,Mode=OneWay, StringFormat=0.##}">
                                 <TextBlock.Margin>
-                                    <Thickness Right="{StaticResource Thickness-2}"/>
+                                    <Thickness Right="{StaticResource Thickness-2}" />
                                 </TextBlock.Margin>
                             </TextBlock>
                             <Slider Grid.Column="1"
@@ -600,38 +830,122 @@
                                     Maximum="20"
                                     Interval="1"
                                     Value="{Binding PinnedImage.Shadow.BlurRadius, UpdateSourceTrigger=PropertyChanged}"
-                                    IsEnabled="{Binding PinnedImage.Shadow.Visible}"/>
+                                    IsEnabled="{Binding PinnedImage.Shadow.Visible}" />
                         </Grid>
 
                     </Grid>
 
-                    <StackPanel 
-                        Orientation="Vertical"
-                        Margin="{StaticResource SettingItemInnerContentMargin}">
-                        <TextBlock 
-                            Text="Presets"
-                            />
+                    <StackPanel Orientation="Vertical"
+                                Margin="{StaticResource SettingItemInnerContentMargin}">
+                        <TextBlock Text="Presets" />
+
+                        <ListView BorderThickness="0"
+                                  HorizontalAlignment="Left"
+                                  ItemsSource="{Binding Path=ShadowPresets}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal">
+                                    </WrapPanel>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+
+                            <ListView.Template>
+                                <ControlTemplate>
+                                    <ItemsPresenter />
+                                </ControlTemplate>
+                            </ListView.Template>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <Button x:Name="TheButton"
+                                                Style="{StaticResource BasePresetButtonStyle}"
+                                                Background="White"
+                                                DataContext="{Binding}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ViewModel.ApplyShadowPresetCommand}"
+                                                CommandParameter="{Binding}"
+                                                BorderThickness="1"
+                                                BorderBrush="{StaticResource Neutral-300-Brush}">
+                                            <Viewbox>
+                                                <Canvas Width="100"
+                                                        Height="100"
+                                                        Background="White"
+                                                        ClipToBounds="True">
+                                                    <Border Canvas.Top="15"
+                                                            Canvas.Right="15"
+                                                            Width="70"
+                                                            Height="70"
+                                                            BorderThickness="1"
+                                                            BorderBrush="{StaticResource Neutral-200-Brush}"
+                                                            Background="White">
+                                                        <Border.Effect>
+                                                            <DropShadowEffect Color="Black"
+                                                                              Opacity="{Binding Value.Opacity}"
+                                                                              ShadowDepth="{Binding Value.Depth}"
+                                                                              Direction="{Binding Value.Direction}"
+                                                                              BlurRadius="{Binding Value.BlurRadius}" />
+                                                        </Border.Effect>
+                                                    </Border>
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Button>
+                                        <TextBlock Text="{Binding Mode=OneTime, Path=Description}"
+                                                   FontSize="{StaticResource Text-xs}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   HorizontalAlignment="Center"
+                                                   MaxWidth="{Binding ElementName=TheButton, Path=ActualWidth}">
+                                            <TextBlock.ToolTip>
+                                                <ToolTip Style="{StaticResource ModernToolTip}"
+                                                         FontFamily="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=FontFamily}"
+                                                         Content="{Binding Description}">
+                                                </ToolTip>
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                <Border BorderBrush="Transparent">
+                                                    <Border.BorderThickness>
+                                                        <Thickness Left="{StaticResource Thickness-0.5}"
+                                                                   Top="{StaticResource Thickness-0.5}"
+                                                                   Right="{StaticResource Thickness-0.5}"
+                                                                   Bottom="{StaticResource Thickness-0.5}" />
+                                                    </Border.BorderThickness>
+                                                    <ContentPresenter />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                        
                     </StackPanel>
                 </StackPanel>
             </Border>
+            <!--End of Shadow-->
 
-            <StackPanel 
-                Orientation="Horizontal" 
-                FlowDirection="RightToLeft"
-                >
+            <StackPanel Orientation="Horizontal"
+                        FlowDirection="RightToLeft">
                 <StackPanel.Margin>
-                    <Thickness Top="{StaticResource Thickness-4}"/>
+                    <Thickness Top="{StaticResource Thickness-4}" />
                 </StackPanel.Margin>
-                <Button 
-                    Style="{StaticResource StandardButton}"
-                    Command="{Binding RollbackChangesCommand}">
+                <Button Style="{StaticResource StandardButton}"
+                        Command="{Binding RollbackChangesCommand}">
                     Cancel
                 </Button>
-                <Button 
-                    Style="{StaticResource ActionButton}"
-                    Command="{Binding ApplyChangesCommand}">
+                <Button Style="{StaticResource ActionButton}"
+                        Command="{Binding ApplyChangesCommand}">
                     <Button.Margin>
-                        <Thickness Left="{StaticResource Thickness-1}"/>
+                        <Thickness Left="{StaticResource Thickness-1}" />
                     </Button.Margin>
                     Apply Changes
                 </Button>

@@ -62,6 +62,22 @@ namespace Presentation.ViewModels
                 Value: new Shared.Rotation(Angle: 90)),
         };
 
+        public ObservableCollection<PresetSetting<Shared.Corner>> CornerPresets { get; } = new ObservableCollection<PresetSetting<Shared.Corner>>()
+        {
+            new PresetSetting<Shared.Corner>(
+                Description: "None",
+                Value: new Shared.Corner(Radius: 0)),
+            new PresetSetting<Shared.Corner>(
+                Description: "Small",
+                Value: new Shared.Corner(Radius: 4)),
+            new PresetSetting<Shared.Corner>(
+                Description: "Medium",
+                Value: new Shared.Corner(Radius: 7.5)),
+            new PresetSetting<Shared.Corner>(
+                Description: "large",
+                Value: new Shared.Corner(Radius: 12)),
+        };
+
         public ObservableCollection<PresetSetting<Shared.Shadow>> ShadowPresets { get; } = new ObservableCollection<PresetSetting<Shared.Shadow>>()
         {
             new PresetSetting<Shared.Shadow>(
@@ -73,38 +89,46 @@ namespace Presentation.ViewModels
                     BlurRadius: 0,
                     IsVisible: false)),
              new PresetSetting<Shared.Shadow>(
-                Description: "Small",
+                Description: "Subtle",
                 Value: new Shared.Shadow(
-                    Opacity: 0.05,
-                    Depth: 1,
+                    Opacity: 0.25,
+                    Depth: 2,
                     Direction: 270,
-                    BlurRadius: 2,
-                    IsVisible: false)),
-             new PresetSetting<Shared.Shadow>(
-                Description: "Normal",
-                Value: new Shared.Shadow(
-                    Opacity: 0.1,
-                    Depth: 1,
-                    Direction: 270,
-                    BlurRadius: 3,
-                    IsVisible: false)),
+                    BlurRadius: 5,
+                    IsVisible: true)),
              new PresetSetting<Shared.Shadow>(
                 Description: "Medium",
                 Value: new Shared.Shadow(
-                    Opacity: 0.1,
+                    Opacity: 0.5,
                     Depth: 4,
                     Direction: 270,
-                    BlurRadius: 6,
-                    IsVisible: false)),
+                    BlurRadius: 5,
+                    IsVisible: true)),
              new PresetSetting<Shared.Shadow>(
-                Description: "Large",
+                Description: "Heavy",
                 Value: new Shared.Shadow(
-                    Opacity: 0.1,
-                    Depth: 10,
+                    Opacity: 0.4,
+                    Depth: 8,
                     Direction: 270,
-                    BlurRadius: 15,
-                    IsVisible: false))
+                    BlurRadius: 10,
+                    IsVisible: true)),
+             new PresetSetting<Shared.Shadow>(
+                Description: "Directional",
+                Value: new Shared.Shadow(
+                    Opacity: 0.3,
+                    Depth: 5,
+                    Direction: 315,
+                    BlurRadius: 3.68,
+                    IsVisible: true))
         };
+
+        public IRelayCommand ApplyFrameThicknessPresetCommand {  get; }
+
+        public IRelayCommand ApplyRotationPresetCommand {  get; }
+
+        public IRelayCommand ApplyCornerPresetCommand {  get; }
+
+        public IRelayCommand ApplyShadowPresetCommand {  get; }
 
         public IAsyncRelayCommand ApplyChangesCommand { get; }
 
@@ -126,9 +150,56 @@ namespace Presentation.ViewModels
             PinnedImage = pinnedImage;
             _state = pinnedImage.CreateMemento();
 
+            ApplyFrameThicknessPresetCommand = new RelayCommand<PresetSetting<Shared.FrameThickness>>(execute: ApplyPreset);
+            ApplyRotationPresetCommand = new RelayCommand<PresetSetting<Shared.Rotation>>(execute: ApplyPreset);
+            ApplyCornerPresetCommand = new RelayCommand<PresetSetting<Shared.Corner>>(execute: ApplyPreset);
+            ApplyShadowPresetCommand = new RelayCommand<PresetSetting<Shared.Shadow>>(execute: ApplyPreset);
+
             ApplyChangesCommand = new AsyncRelayCommand(cancelableExecute: ApplyChangesAsync);
 
             RollbackChangesCommand = new RelayCommand(execute: RollbackChanges);
+        }
+
+        private void ApplyPreset(PresetSetting<Shared.FrameThickness>? preset)
+        {
+            if (preset != null)
+            {
+                PinnedImage.FrameThickness = preset.Value;
+            }
+        }
+
+        private void ApplyPreset(PresetSetting<Shared.Rotation>? preset)
+        {
+            if (preset != null)
+            {
+                PinnedImage.Rotation = preset.Value;
+            }
+        }
+
+        private void ApplyPreset(PresetSetting<Shared.Corner>? preset)
+        {
+            if (preset != null)
+            {
+                PinnedImage.Corner = preset.Value;
+            }
+        }
+
+        private void ApplyPreset(PresetSetting<Shared.Shadow>? preset)
+        {
+            if (preset != null)
+            {
+                (double Opacity,
+                    double Depth,
+                    double Direction,
+                    double BlurRadius,
+                    bool IsVisible) = preset.Value;
+
+                PinnedImage.Shadow.Opacity = Opacity;
+                PinnedImage.Shadow.Depth = Depth;
+                PinnedImage.Shadow.Direction = Direction;
+                PinnedImage.Shadow.BlurRadius = BlurRadius;
+                PinnedImage.Shadow.Visible = IsVisible;
+            }
         }
 
         private async Task ApplyChangesAsync(CancellationToken cancellationToken = default)
@@ -146,7 +217,7 @@ namespace Presentation.ViewModels
                         Shadow: PinnedImage.Shadow.CreateMemento()),
                     cancellationToken: cancellationToken);
 
-                if(result.IsFailed)
+                if (result.IsFailed)
                 {
                     _messageNotification.Notify(parameter: new Message(
                         Title: "Oops",
@@ -159,7 +230,7 @@ namespace Presentation.ViewModels
 
                 _displayHost.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(exception: ex, message: "An error occurred.");
                 _errorNotification.Notify(ex);

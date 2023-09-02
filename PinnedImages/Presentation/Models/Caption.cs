@@ -5,11 +5,7 @@
         private string _text;
         private bool _visible;
 
-        public Caption(string text, bool visible)
-        {
-            _text = text;
-            _visible = visible;
-        }
+        public Caption(string text, bool visible) => (_text, _visible) = (text, visible);
 
         public string Text
         {

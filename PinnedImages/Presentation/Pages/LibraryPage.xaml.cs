@@ -12,8 +12,8 @@ namespace Presentation.Pages
 
         public LibraryPage(LibraryPageViewModel viewModel)
         {
-            InitializeComponent();
             ViewModel = viewModel;
+            InitializeComponent();
             DataContext = ViewModel;
         }
 

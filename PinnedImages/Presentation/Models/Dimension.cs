@@ -16,7 +16,6 @@
             get => _width;
             set
             {
-
                 _width = value;
                 OnPropertyChanged(nameof(Width));
             }

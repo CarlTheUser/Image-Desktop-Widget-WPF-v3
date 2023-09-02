@@ -20,8 +20,6 @@ namespace Presentation
             IUserNotification<Exception> errorNotification,
             IUserNotification<Presentation.Message> messageNotification)
         {
-            InitializeComponent();
-
             ViewModel = new PinnedImageRestyleViewModel(
                 logger: logger,
                 restylePinnedImageService: restylePinnedImageService,
@@ -29,6 +27,8 @@ namespace Presentation
                 messageNotification: messageNotification,
                 displayHost: this,
                 pinnedImage: pinnedImage);
+
+            InitializeComponent();
 
             DataContext = ViewModel;
         }
