@@ -16,7 +16,6 @@ Clone with the recursive flag to include other repos that were referenced.
 * Theme color options.
 
 # Todos
-* Add Frame Thickness, Rotation, Corner Radius, and Shadow Presets
 * Fix Library ListItem Context menus not working
 
 # Gallery
