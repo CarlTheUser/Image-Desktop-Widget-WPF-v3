@@ -206,6 +206,8 @@ namespace Presentation.ViewModels
 
                         return;
                     }
+
+                    _messenger.Send(message: new Messages.PinnedImageUnpinnedMessage(ImageId: imageId));
                 }
                 else
                 {

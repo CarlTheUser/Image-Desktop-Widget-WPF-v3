@@ -74,7 +74,7 @@ namespace Presentation.ViewModels
                 Description: "Medium",
                 Value: new Shared.Corner(Radius: 7.5)),
             new PresetSetting<Shared.Corner>(
-                Description: "large",
+                Description: "Large",
                 Value: new Shared.Corner(Radius: 12)),
         };
 
@@ -102,7 +102,7 @@ namespace Presentation.ViewModels
                     Opacity: 0.5,
                     Depth: 4,
                     Direction: 270,
-                    BlurRadius: 5,
+                    BlurRadius: 8,
                     IsVisible: true)),
              new PresetSetting<Shared.Shadow>(
                 Description: "Heavy",

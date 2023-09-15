@@ -41,11 +41,16 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" 
-                   Text="Library" 
-                   FontSize="{StaticResource Text-2xl}"
-                   Margin="{StaticResource Margin}"/>
+        <!--#region Page Title-->
 
+        <TextBlock Grid.Row="0"
+                   Text="Library"
+                   FontSize="{StaticResource Text-2xl}"
+                   Margin="{StaticResource Margin}" />
+        <!--#endregion-->
+        
+        <!--#region Page Content-->
+        
         <StackPanel Grid.Row="1" 
                     Margin="{StaticResource Margin}"
                     Orientation="Vertical"
@@ -82,13 +87,36 @@
                                    Text="Pin New Image"/>
                         </Grid>
                     </Button>
-                    <!--<Image/>-->
+
                     <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               BorderThickness="0"
                               HorizontalAlignment="Left"
                               Background="Transparent"
                               ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=ViewModel.PinnedImages}">
+                        <ListView.ContextMenu>
+                            <ContextMenu Style="{StaticResource ModernContextMenu}">
+                                <MenuItem Header="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu},Path=PlacementTarget.SelectedItem.IsShown, Converter={StaticResource BooleanToAnythingPinnedImageIsPinned}}"
+                                          Command="{Binding TogglePinCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
+                                          Style="{StaticResource ModernMenuItem}">
+                                    <MenuItem.Icon>
+                                        <TextBlock Text="&#xf08d;"
+                                                   FontFamily="{StaticResource FontAwesomeFreeSolid}"
+                                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu},Path=PlacementTarget.SelectedItem.IsShownn, Converter={StaticResource BooleanToBrush}}" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem Header="Delete"
+                                          Command="{Binding DeleteImageCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu},Path=PlacementTarget.SelectedItem}">
+                                    <MenuItem.Icon>
+                                        <TextBlock Text="&#xf2ed;"
+                                                   FontFamily="{StaticResource FontAwesomeFreeSolid}" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel Orientation="Horizontal">
@@ -105,34 +133,8 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="Transparent">
-                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                        <!--<StackPanel.ContextMenu>
-                                            <ContextMenu Name="PinnedImageContextMenu"
-                                                         Style="{StaticResource ModernContextMenu}">
-                                                
-                                                <MenuItem Header="{Binding IsShown, Converter={StaticResource BooleanToAnythingPinnedImageIsPinned}}"
-                                                          Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=ViewModel.TogglePinCommand}"
-                                                          CommandParameter="{Binding}"
-                                                          Style="{StaticResource ModernMenuItem}">
-                                                    <MenuItem.Icon>
-                                                        <TextBlock
-                                                            Text="&#xf08d;"
-                                                            FontFamily="{StaticResource FontAwesomeFreeSolid}"
-                                                            Foreground="{Binding IsShown, Converter={StaticResource BooleanToBrush}}"/>
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
-                                                
-                                                <MenuItem Header="Delete"
-                                                          Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=ViewModel.DeleteImageCommand}"
-                                                          CommandParameter="{Binding}">
-                                                    <MenuItem.Icon>
-                                                        <TextBlock
-                                                            Text="&#xf2ed;"
-                                                            FontFamily="{StaticResource FontAwesomeFreeSolid}"/>
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
-                                            </ContextMenu>
-                                        </StackPanel.ContextMenu>-->
+                                    <StackPanel Orientation="Vertical"
+                                                HorizontalAlignment="Center">
                                         <Grid HorizontalAlignment="Stretch"
                                                   VerticalAlignment="Center">
                                             <Grid.Margin>
@@ -247,5 +249,8 @@
                 </StackPanel>
             </Border>
         </StackPanel>
+        
+        <!--#endregion-->
+        
     </Grid>
 </Page>
