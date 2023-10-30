@@ -7,6 +7,7 @@
       xmlns:converters="clr-namespace:Presentation.Converters"
       xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
       xmlns:appproperties="clr-namespace:Presentation.Properties"
+      xmlns:local="clr-namespace:Presentation.Pages"
       d:DataContext="{d:DesignInstance Type=viewmodels:LibraryPageViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -66,29 +67,50 @@
                 </Border.Padding>
                 <StackPanel Orientation="Vertical">
 
-                    <Button VerticalAlignment="Top" 
-                        HorizontalAlignment="Left"
-                        Style="{StaticResource ActionButton}"
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=ViewModel.PinImageCommand}">
+                    <Button VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource ActionButton}"
+                            Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=ViewModel.PinImageCommand}">
                         <Button.Margin>
-                            <Thickness Bottom="{StaticResource Thickness-5}"/>
+                            <Thickness Bottom="{StaticResource Thickness-5}" />
                         </Button.Margin>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="24"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="24" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
-                                   VerticalAlignment="Center"
-                                   FontFamily="{StaticResource FontAwesomeFreeSolid}" 
-                                   Text="&#xf03e;"/>
-                            <TextBlock Grid.Column="1" 
-                                   VerticalAlignment="Center"
-                                   Text="Pin New Image"/>
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource FontAwesomeFreeSolid}"
+                                       Text="&#xf03e;" />
+                            <TextBlock Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       Text="Pin New Image" />
                         </Grid>
                     </Button>
 
-                    <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    <local:LibraryPageEmptyList>
+                        <local:LibraryPageEmptyList.Style>
+                            <Style TargetType="Control">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                                <Setter Property="Height"
+                                        Value="300" />
+                                <Setter Property="HorizontalAlignment"
+                                        Value="Stretch" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding  RelativeSource={RelativeSource AncestorType=Page}, Path=ViewModel.PinnedImages.Count}"
+                                                 Value="0">
+                                        <Setter Property="Visibility"
+                                                Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </local:LibraryPageEmptyList.Style>
+                    </local:LibraryPageEmptyList>
+
+                    <ListView x:Name="LibraryListView" 
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               BorderThickness="0"
                               HorizontalAlignment="Left"
