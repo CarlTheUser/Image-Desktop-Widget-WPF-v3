@@ -12,7 +12,7 @@ namespace Presentation.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && value is Shared.ImageDirectory imageDirectory && !string.IsNullOrWhiteSpace(imageDirectory))
+            if (value is Shared.ImageDirectory imageDirectory && !string.IsNullOrWhiteSpace(imageDirectory))
             {
                 var configuration = ((App)System.Windows.Application.Current).Configuration;
 
@@ -23,10 +23,7 @@ namespace Presentation.Converters
                 bitmap.BeginInit();
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
                 bitmap.UriSource = new Uri(
-                    uriString: Path.Combine(
-                        configuration["Application:Environment:Paths:PinnedImages"],
-                        imageDirectory,
-                        FileName),
+                    uriString: Path.Combine(configuration["Application:Environment:Paths:PinnedImages"], imageDirectory, FileName),
                     uriKind: UriKind.RelativeOrAbsolute);
                 bitmap.EndInit();
 

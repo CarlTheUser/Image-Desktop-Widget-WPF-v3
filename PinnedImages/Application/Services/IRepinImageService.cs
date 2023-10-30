@@ -1,8 +1,6 @@
 ﻿using Core;
-using Data.Common.Contracts.SpecificationRepositories;
 using FluentResults;
 using Shared;
-using S = Data.Common.Contracts.SpecificationRepositories;
 
 namespace Application.Services
 {
@@ -13,17 +11,18 @@ namespace Application.Services
 
     public class RepinImageService : IRepinImageService
     {
-        private readonly S.IAsyncRepository<ImageId, Core.PinnedImage> _repository;
+        private readonly IPinnedImageRepository _repository;
 
-        public RepinImageService(IAsyncRepository<ImageId, PinnedImage> repository)
+        public RepinImageService(IPinnedImageRepository repository)
         {
             _repository = repository;
         }
 
         public async Task<Result> Repin(ImageId imageId, CancellationToken cancellationToken = default)
         {
-            PinnedImage? pinnedImage = await _repository.FindAsync(specification: new KeySpecification<PinnedImage, ImageId>(key: imageId),
-                                                          cancellationToken: cancellationToken);
+            PinnedImage? pinnedImage = await _repository.FindAsync(
+                specification: new PinnedImageByImageIdSpecification(ImageId: imageId),
+                cancellationToken: cancellationToken);
 
             if (pinnedImage == null)
             {

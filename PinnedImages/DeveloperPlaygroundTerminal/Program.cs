@@ -1,8 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using Application.Services;
+using Core;
 using Data.Common.Contracts.SpecificationRepositories;
-using Infrastructure.Data;
-using Misc.Utilities;
 using Shared;
 
 Console.WriteLine("Hello, World!");
@@ -37,9 +35,9 @@ Console.WriteLine("Hello, World!");
 
 
 
-class StubPinnedImageRepository : IAsyncRepository<ImageId, Core.PinnedImage>
+class StubPinnedImageRepository : IPinnedImageRepository
 {
-    public Task<Core.PinnedImage?> FindAsync(KeySpecification<Core.PinnedImage, Shared.ImageId> specification, CancellationToken cancellationToken = default)
+    public Task<PinnedImage?> FindAsync(PinnedImageByImageIdSpecification specification, CancellationToken cancellationToken = default)
     {
         return Task.FromResult<Core.PinnedImage?>(result: null);
     }
@@ -48,5 +46,7 @@ class StubPinnedImageRepository : IAsyncRepository<ImageId, Core.PinnedImage>
     {
         return Task.CompletedTask;
     }
+
+   
 }
 

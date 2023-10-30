@@ -5,12 +5,6 @@
         private double _width;
         private double _height;
 
-        public Dimension(double width, double height)
-        {
-            _width = width;
-            _height = height;
-        }
-
         public double Width
         {
             get => _width;
@@ -31,11 +25,13 @@
             }
         }
 
+        public Dimension(double width, double height) => (Width, Height) = (width, height);
+
         public Shared.Dimension CreateMemento()
         {
             return new Shared.Dimension(
-                Width: Width,
-                Height: Height);
+                Width: _width,
+                Height: _height);
         }
 
         public void Restore(Shared.Dimension memento)

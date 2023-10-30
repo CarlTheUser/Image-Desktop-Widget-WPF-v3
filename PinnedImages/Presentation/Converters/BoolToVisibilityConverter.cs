@@ -11,7 +11,7 @@ namespace Presentation.Converters
         {
             if (value != null && value is bool isVisible)
             {
-                return isVisible? Visibility.Visible : Visibility.Collapsed;
+                return isVisible ? Visibility.Visible : Visibility.Collapsed;
             }
             return Binding.DoNothing;
         }

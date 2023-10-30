@@ -8,7 +8,7 @@ namespace Presentation.Converters
     {
         public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && value is System.Drawing.Color color)
+            if (value is System.Drawing.Color color)
             {
                 return System.Windows.Media.Color.FromArgb(
                     a: color.A,

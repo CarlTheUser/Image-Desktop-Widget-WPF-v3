@@ -107,7 +107,7 @@ namespace Presentation.ViewModels
             try
             {
                 Result result = await _unpinImageService.Unpin(
-                    imageId: Image.Id, 
+                    imageId: Image.Id,
                     cancellationToken: cancellationToken);
 
                 if (result.IsFailed)
@@ -135,7 +135,7 @@ namespace Presentation.ViewModels
                 try
                 {
                     await _changePinnedImageDisplayParameterService.Apply(
-                        imageId: Image.Id, 
+                        imageId: Image.Id,
                         displayParameter: new Shared.DisplayParameter(
                             Dimension: Image.Dimension.CreateMemento(),
                             Location: Image.Location.CreateMemento()),

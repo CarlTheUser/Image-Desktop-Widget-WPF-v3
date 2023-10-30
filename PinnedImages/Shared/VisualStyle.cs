@@ -3,7 +3,7 @@
     public record VisualStyle(
         ImageColor Color,
         FrameThickness FrameThickness,
-        Rotation Rotaion,
+        Rotation Rotation,
         Corner Corner,
         Caption Caption,
         Shadow Shadow);

@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using Core;
+using FluentResults;
 using Misc.Utilities;
 using Shared;
 using S = Data.Common.Contracts.SpecificationRepositories;
@@ -24,13 +25,13 @@ namespace Application.Services
     public class PinImageService : IPinImageService
     {
         private readonly int _relativeFolderNameLength;
-        private readonly S.IAsyncRepository<ImageId, Core.PinnedImage> _repository;
+        private readonly IPinnedImageRepository _repository;
         private readonly int _thumbnailLength;
         private readonly DirectoryInfo _pinnedImagesDirectory;
         private readonly IRandomStringGenerator _randomStringGenerator;
 
         public PinImageService(int relativeFolderNameLength,
-            S.IAsyncRepository<ImageId, Core.PinnedImage> repository,
+            IPinnedImageRepository repository,
             int thumbnailLength,
             DirectoryInfo pinnedImagesDirectory,
             IRandomStringGenerator randomStringGenerator)
@@ -116,19 +117,20 @@ namespace Application.Services
                 item: pinnedImage,
                 cancellationToken: cancellationToken);
 
-            return Result.Ok(value: new Data.Projections.PinnedImage(
-                Id: pinnedImage.Id,
-                Directory: pinnedImage.Directory,
-                Dimension: pinnedImage.Dimension,
-                Location: pinnedImage.Location,
-                Color: pinnedImage.Color,
-                FrameThickness: pinnedImage.FrameThickness,
-                Rotaion: pinnedImage.Rotation,
-                Corner: pinnedImage.Corner,
-                Caption: pinnedImage.Caption,
-                Shadow: pinnedImage.Shadow,
-                IsShown: pinnedImage.IsPinned,
-                CreationTimestamp: pinnedImage.CreationTimestamp));
+            return Result.Ok(
+                value: new Data.Projections.PinnedImage(
+                    Id: pinnedImage.Id,
+                    Directory: pinnedImage.Directory,
+                    Dimension: pinnedImage.Dimension,
+                    Location: pinnedImage.Location,
+                    Color: pinnedImage.Color,
+                    FrameThickness: pinnedImage.FrameThickness,
+                    Rotaion: pinnedImage.Rotation,
+                    Corner: pinnedImage.Corner,
+                    Caption: pinnedImage.Caption,
+                    Shadow: pinnedImage.Shadow,
+                    IsShown: pinnedImage.IsPinned,
+                    CreationTimestamp: pinnedImage.CreationTimestamp));
         }
     }
 }

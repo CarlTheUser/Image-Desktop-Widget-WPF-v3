@@ -1,5 +1,4 @@
 ﻿using Core;
-using Data.Common.Contracts.SpecificationRepositories;
 using FluentResults;
 using Shared;
 
@@ -13,19 +12,24 @@ namespace Application.Services
 
     public class DeletePinnedImageService : IDeletePinnedImageService
     {
-        private readonly IAsyncRepository<ImageId, Core.PinnedImage> _repository;
-        private readonly DirectoryInfo _pinnedImagesDirectory;
+        private readonly IPinnedImageRepository _repository;
+        private readonly string _pinnedImagesDirectory;
+        private readonly IFileSystemDeleteHelper _fileSystemDeleteHelper;
 
-        public DeletePinnedImageService(IAsyncRepository<ImageId, PinnedImage> repository, DirectoryInfo pinnedImagesDirectory)
+        public DeletePinnedImageService(
+            IPinnedImageRepository repository,
+            string pinnedImagesDirectory,
+            IFileSystemDeleteHelper fileSystemDeleteHelper)
         {
             _repository = repository;
             _pinnedImagesDirectory = pinnedImagesDirectory;
+            _fileSystemDeleteHelper = fileSystemDeleteHelper;
         }
 
         public async Task<Result> DeletePinnedImage(ImageId imageId, CancellationToken cancellationToken = default)
         {
             PinnedImage? pinnedImage = await _repository.FindAsync(
-                specification: new KeySpecification<PinnedImage, ImageId>(key: imageId),
+                specification: new PinnedImageByImageIdSpecification(imageId),
                 cancellationToken: cancellationToken);
 
             if (pinnedImage == null)
@@ -37,22 +41,30 @@ namespace Application.Services
 
             await _repository.SaveAsync(pinnedImage, cancellationToken);
 
-            RecursiveDelete(baseDir: new DirectoryInfo(path: Path.Combine(_pinnedImagesDirectory.FullName, pinnedImage.Directory)));
+            _fileSystemDeleteHelper.DeleteDirectory(path: Path.Combine(_pinnedImagesDirectory, pinnedImage.Directory));
 
             return Result.Ok();
         }
 
-        //https://stackoverflow.com/questions/925192/recursive-delete-of-files-and-directories-in-c-sharp
-        private static void RecursiveDelete(DirectoryInfo baseDir)
+        public interface IFileSystemDeleteHelper
         {
-            if (!baseDir.Exists)
-                return;
+            void DeleteDirectory(string path);
+        }
 
-            foreach (var dir in baseDir.EnumerateDirectories())
+        public class FileSystemDeleteHelper : IFileSystemDeleteHelper
+        {
+            //https://stackoverflow.com/questions/925192/recursive-delete-of-files-and-directories-in-c-sharp
+            public void DeleteDirectory(string path)
             {
-                RecursiveDelete(dir);
+                var dir = new DirectoryInfo(path);
+                if (!dir.Exists) return;
+
+                foreach (var subDir in dir.EnumerateDirectories())
+                {
+                    DeleteDirectory(subDir.FullName);
+                }
+                dir.Delete(true);
             }
-            baseDir.Delete(true);
         }
     }
 }

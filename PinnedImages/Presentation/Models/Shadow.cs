@@ -8,20 +8,6 @@
         private double _blurRadius;
         private bool _visible;
 
-        public Shadow(
-            double opacity,
-            double depth,
-            double direction,
-            double blurRadius,
-            bool visible)
-        {
-            _opacity = opacity;
-            _depth = depth;
-            _direction = direction;
-            _blurRadius = blurRadius;
-            _visible = visible;
-        }
-
         public double Opacity
         {
             get => _visible ? _opacity : 0;
@@ -67,6 +53,20 @@
                 OnPropertyChanged(nameof(Visible));
                 OnPropertyChanged(nameof(Opacity));
             }
+        }
+
+        public Shadow(
+            double opacity,
+            double depth,
+            double direction,
+            double blurRadius,
+            bool visible)
+        {
+            _opacity = opacity;
+            _depth = depth;
+            _direction = direction;
+            _blurRadius = blurRadius;
+            _visible = visible;
         }
 
         public Shared.Shadow CreateMemento()

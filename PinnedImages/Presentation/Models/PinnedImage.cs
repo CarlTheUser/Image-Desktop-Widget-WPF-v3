@@ -10,32 +10,6 @@ namespace Presentation.Models
         private Shared.Rotation _rotation;
         private Shared.Corner _corner;
 
-        public PinnedImage(
-            Shared.ImageId id,
-            Shared.ImageDirectory directory,
-            Dimension dimension,
-            Location location,
-            Color color,
-            Shared.FrameThickness frameThickness,
-            Shared.Rotation rotation,
-            Shared.Corner corner,
-            Caption caption,
-            Shadow shadow,
-            DateTime creationTimestamp)
-        {
-            Id = id;
-            Directory = directory;
-            Dimension = dimension;
-            Location = location;
-            _color = color;
-            _frameThickness = frameThickness;
-            _rotation = rotation;
-            _corner = corner;
-            Caption = caption;
-            Shadow = shadow;
-            CreationTimestamp = creationTimestamp;
-        }
-
         public Shared.ImageId Id { get; }
         public Shared.ImageDirectory Directory { get; }
         public Dimension Dimension { get; }
@@ -79,6 +53,32 @@ namespace Presentation.Models
         public Caption Caption { get; }
         public Shadow Shadow { get; }
         public DateTime CreationTimestamp { get; }
+
+        public PinnedImage(
+            Shared.ImageId id,
+            Shared.ImageDirectory directory,
+            Dimension dimension,
+            Location location,
+            Color color,
+            Shared.FrameThickness frameThickness,
+            Shared.Rotation rotation,
+            Shared.Corner corner,
+            Caption caption,
+            Shadow shadow,
+            DateTime creationTimestamp)
+        {
+            Id = id;
+            Directory = directory;
+            Dimension = dimension;
+            Location = location;
+            _color = color;
+            _frameThickness = frameThickness;
+            _rotation = rotation;
+            _corner = corner;
+            Caption = caption;
+            Shadow = shadow;
+            CreationTimestamp = creationTimestamp;
+        }
 
         public Data.Projections.PinnedImage CreateMemento()
         {

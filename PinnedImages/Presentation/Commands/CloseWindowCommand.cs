@@ -19,7 +19,7 @@ namespace Presentation.Commands
 
         public void Execute(object? parameter)
         {
-            if(parameter != null && parameter is Window w)
+            if (parameter is Window w)
             {
                 w.Close();
             }

@@ -20,7 +20,7 @@ namespace Presentation.Converters
             return (value as ApplicationPage?) switch
             {
                 ApplicationPage.MainPage => _serviceProvider.GetService<LibraryPage>() ?? Binding.DoNothing,
-                ApplicationPage.SettingsPage =>  _serviceProvider.GetService<SettingsPage>() ?? Binding.DoNothing,
+                ApplicationPage.SettingsPage => _serviceProvider.GetService<SettingsPage>() ?? Binding.DoNothing,
                 _ => Binding.DoNothing
             };
         }

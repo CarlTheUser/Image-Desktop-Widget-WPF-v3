@@ -8,7 +8,7 @@ namespace Presentation.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && value is Exception exception)
+            if (value is Exception exception)
             {
                 return exception.GetType().FullName ?? exception.GetType().Name;
             }

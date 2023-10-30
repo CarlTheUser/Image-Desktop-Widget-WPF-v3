@@ -5,8 +5,6 @@
         private double _x;
         private double _y;
 
-        public Location(double x, double y) => (X, Y) = (x, y);
-
         public double X
         {
             get => _x;
@@ -26,6 +24,8 @@
                 OnPropertyChanged(nameof(Y));
             }
         }
+
+        public Location(double x, double y) => (X, Y) = (x, y);
 
         public Shared.Location CreateMemento()
         {

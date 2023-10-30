@@ -20,7 +20,7 @@ namespace Presentation.Converters
 
         public object ConvertBack(object? value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value != null)
+            if (value != null)
             {
                 return value == TrueValue;
             }

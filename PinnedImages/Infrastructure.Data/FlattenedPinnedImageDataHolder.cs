@@ -3,6 +3,7 @@
     //LiteDB needs parameterless constructors
     internal class FlattenedPinnedImageDataHolder
     {
+        private const string _whiteHexValue = "#FFFFFF";
         public Guid Id { get; set; }
         public string ImageDirectory { get; set; } = string.Empty;
         public string CaptionText { get; set; } = string.Empty;
@@ -16,7 +17,7 @@
         public double DimensionHeight { get; set; }
         public double LocationX { get; set; }
         public double LocationY { get; set; }
-        public string ImageColorHexValue { get; set; } = "#FFFFFF";
+        public string ImageColorHexValue { get; set; } = _whiteHexValue;
         public double FrameThicknessValue { get; set; }
         public double RotationAngle { get; set; }
         public double CornerRadius { get; set; }

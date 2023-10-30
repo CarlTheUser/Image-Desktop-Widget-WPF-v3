@@ -122,13 +122,13 @@ namespace Presentation.ViewModels
                     IsVisible: true))
         };
 
-        public IRelayCommand ApplyFrameThicknessPresetCommand {  get; }
+        public IRelayCommand ApplyFrameThicknessPresetCommand { get; }
 
-        public IRelayCommand ApplyRotationPresetCommand {  get; }
+        public IRelayCommand ApplyRotationPresetCommand { get; }
 
-        public IRelayCommand ApplyCornerPresetCommand {  get; }
+        public IRelayCommand ApplyCornerPresetCommand { get; }
 
-        public IRelayCommand ApplyShadowPresetCommand {  get; }
+        public IRelayCommand ApplyShadowPresetCommand { get; }
 
         public IAsyncRelayCommand ApplyChangesCommand { get; }
 
@@ -211,7 +211,7 @@ namespace Presentation.ViewModels
                     style: new Shared.VisualStyle(
                         Color: new Shared.ImageColor(HexValue: PinnedImage.Color.ToString()),
                         FrameThickness: PinnedImage.FrameThickness,
-                        Rotaion: PinnedImage.Rotation,
+                        Rotation: PinnedImage.Rotation,
                         Corner: PinnedImage.Corner,
                         Caption: PinnedImage.Caption.CreateMemento(),
                         Shadow: PinnedImage.Shadow.CreateMemento()),

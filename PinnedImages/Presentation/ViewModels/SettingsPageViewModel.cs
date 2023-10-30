@@ -37,7 +37,7 @@ namespace Presentation.ViewModels
         }
 
         public SettingsPageViewModel(
-            IConfiguration configuration, 
+            IConfiguration configuration,
             IAsyncQuery<IEnumerable<Color>, FileInfo> colorsQuery,
             IUserNotification<Exception> errorNotification,
             ILogger<SettingsPageViewModel> logger)
@@ -68,12 +68,12 @@ namespace Presentation.ViewModels
 
                 Colors = new ObservableCollection<Color>(colors);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(exception: ex, message: "An error occurred.");
                 _errorNotification.Notify(ex);
             }
-           
+
         }
 
         private void SetColor(Color color)

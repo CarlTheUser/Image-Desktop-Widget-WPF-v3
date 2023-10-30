@@ -12,7 +12,7 @@ namespace Presentation.Converters
 
         public object? Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && value is WindowState windowState)
+            if (value is WindowState windowState)
             {
                 return windowState == WindowState.Normal ? MaximizedValue : NormalValue;
             }

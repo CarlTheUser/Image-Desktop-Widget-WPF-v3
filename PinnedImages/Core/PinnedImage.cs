@@ -123,7 +123,7 @@ namespace Core
         {
             Color = style.Color;
             FrameThickness = style.FrameThickness;
-            Rotation = style.Rotaion;
+            Rotation = style.Rotation;
             Corner = style.Corner;
             Caption = style.Caption;
             Shadow = style.Shadow;

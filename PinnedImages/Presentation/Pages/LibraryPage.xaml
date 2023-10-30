@@ -136,18 +136,21 @@
                                     <StackPanel Orientation="Vertical"
                                                 HorizontalAlignment="Center">
                                         <Grid HorizontalAlignment="Stretch"
-                                                  VerticalAlignment="Center">
+                                                  VerticalAlignment="Center"
+                                              UseLayoutRounding="True"
+                                              SnapsToDevicePixels="True">
                                             <Grid.Margin>
                                                 <Thickness Bottom="{StaticResource Thickness-5}"/>
                                             </Grid.Margin>
                                             <Image Name="Image"
+                                                   RenderOptions.BitmapScalingMode="NearestNeighbor"
                                                    Stretch="Uniform"
                                                    MaxWidth="225"
                                                    MaxHeight="150"
                                                    Source="{Binding Directory, Converter={StaticResource ImageDirectoryToThumbnailBitmapConverter}}"
                                                    RenderTransformOrigin="0.5, 0.5">
                                             </Image>
-                                            <Button 
+                                            <!--<Button 
                                                     Panel.ZIndex="1"
                                                     x:Name="PinToggle" 
                                                     HorizontalAlignment="Right"
@@ -169,7 +172,7 @@
                                                     </Style>
                                                 </Button.Style>
                                                 &#xf142;
-                                            </Button>
+                                            </Button>-->
                                         </Grid>
                                         <TextBlock x:Name="Caption" 
                                                    Text="{Binding CaptionText, Mode=OneWay}"
@@ -215,9 +218,9 @@
                                         <Setter TargetName="Image" 
                                                 Property="Effect" 
                                                 Value="{StaticResource Shadow-lg}"/>
-                                        <Setter TargetName="PinToggle" 
+                                        <!--<Setter TargetName="PinToggle" 
                                                 Property="Visibility" 
-                                                Value="Visible"/>
+                                                Value="Visible"/>-->
                                     </Trigger>
                                 </DataTemplate.Triggers>
 

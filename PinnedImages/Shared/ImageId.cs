@@ -4,7 +4,7 @@
     {
         public static ImageId New() => new(Value: Guid.NewGuid());
 
-        public override string ToString()
+        public override readonly string ToString()
         {
             return Value.ToString();
         }

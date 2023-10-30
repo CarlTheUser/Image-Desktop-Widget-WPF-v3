@@ -11,7 +11,7 @@ namespace Presentation
 {
     public class ColorsFromJsonFileQuery : IAsyncQuery<IEnumerable<Color>, FileInfo>
     {
-        public async Task<IEnumerable<Color>> ExecuteAsync(FileInfo parameter, CancellationToken token)
+        public async Task<IEnumerable<Color>> ExecuteAsync(FileInfo parameter, CancellationToken cancellationToken = default)
         {
             using StreamReader reader = parameter.OpenText();
 

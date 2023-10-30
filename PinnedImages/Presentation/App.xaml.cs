@@ -1,5 +1,6 @@
 ﻿using Application.Services;
 using CommunityToolkit.Mvvm.Messaging;
+using Core;
 using Data.Common.Contracts;
 using Infrastructure.Data;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +30,11 @@ namespace Presentation
     /// </summary>
     public partial class App : System.Windows.Application
     {
+        /// <summary>
+        /// Configure the DI container.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddLogging(builder =>
@@ -45,7 +51,7 @@ namespace Presentation
                         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
                         rollingInterval: RollingInterval.Day)
                     .CreateLogger(),
-                    dispose: false);
+                    dispose: true);
             });
 
             services.AddTransient<IRandomStringGenerator, AbcRandomStringGenerator>();
@@ -53,7 +59,7 @@ namespace Presentation
             services.AddTransient<IAsyncQuery<IEnumerable<Color>, FileInfo>, ColorsFromJsonFileQuery>();
             //services.AddTransient<IAsyncQuery<IEnumerable<Color>, FileInfo>, StubColorsQuery>();
 
-            services.AddTransient<S.IAsyncRepository<ImageId, Core.PinnedImage>>(
+            services.AddTransient<IPinnedImageRepository>(
                 s => new LiteDBPinnedImageRepository(
                     connectionString: configuration.GetConnectionString("PinnedImages")));
 
@@ -74,15 +80,18 @@ namespace Presentation
             services.AddTransient<IPinImageService>(
                 s => new PinImageService(
                     relativeFolderNameLength: configuration.GetValue<int>("Application:ImageKeeping:RelativeFolderNameLength"),
-                    repository: s.GetRequiredService<S.IAsyncRepository<ImageId, Core.PinnedImage>>(),
+                    repository: s.GetRequiredService<IPinnedImageRepository>(),
                     thumbnailLength: configuration.GetValue<int>("Application:ImageKeeping:Thumbnail:Length"),
                     pinnedImagesDirectory: new DirectoryInfo(configuration["Application:Environment:Paths:PinnedImages"]),
                     randomStringGenerator: s.GetRequiredService<IRandomStringGenerator>()));
 
+            services.AddSingleton<DeletePinnedImageService.IFileSystemDeleteHelper,  DeletePinnedImageService.FileSystemDeleteHelper>();
+
             services.AddTransient<IDeletePinnedImageService>(
                 s => new DeletePinnedImageService(
-                    repository: s.GetRequiredService<S.IAsyncRepository<ImageId, Core.PinnedImage>>(),
-                    pinnedImagesDirectory: new DirectoryInfo(configuration["Application:Environment:Paths:PinnedImages"])));
+                    repository: s.GetRequiredService<IPinnedImageRepository>(),
+                    pinnedImagesDirectory: configuration["Application:Environment:Paths:PinnedImages"],
+                    fileSystemDeleteHelper: s.GetRequiredService<DeletePinnedImageService.IFileSystemDeleteHelper>()));
 
             services.AddTransient<IRestylePinnedImageService, RestylePinnedImageService>();
 

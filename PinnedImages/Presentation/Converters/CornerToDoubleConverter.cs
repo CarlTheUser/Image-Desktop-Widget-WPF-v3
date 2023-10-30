@@ -9,7 +9,7 @@ namespace Presentation.Converters
     {
         public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && value is Shared.Corner corner)
+            if (value is Shared.Corner corner)
             {
                 return new CornerRadius(uniformRadius: corner.Radius);
             }
@@ -19,7 +19,7 @@ namespace Presentation.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is not null && value is CornerRadius v)
+            if (value is CornerRadius v)
             {
                 return new Shared.Corner(Radius: v.TopRight);
             }
@@ -30,7 +30,7 @@ namespace Presentation.Converters
     {
         public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && value is Shared.Corner corner)
+            if (value is Shared.Corner corner)
             {
                 return corner.Radius;
             }
@@ -40,7 +40,7 @@ namespace Presentation.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is not null && value is double v)
+            if (value is double v)
             {
                 return new Shared.Corner(Radius: v);
             }

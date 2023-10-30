@@ -13,7 +13,7 @@ namespace Presentation
     /// <summary>
     /// Interaction logic for PinnedImageWindow.xaml
     /// </summary>
-    public partial class PinnedImageWindow : Window, 
+    public partial class PinnedImageWindow : Window,
         IApplicationViewComponent<PinnedImageViewModel>
     {
         private readonly IMessenger _messenger;
@@ -73,7 +73,7 @@ namespace Presentation
 
         public void OnPinnedImageUnpinned(PinnedImageWindow _, PinnedImageUnpinnedMessage message)
         {
-            if(message.ImageId == ViewModel.Image.Id)
+            if (message.ImageId == ViewModel.Image.Id)
             {
                 Close();
             }

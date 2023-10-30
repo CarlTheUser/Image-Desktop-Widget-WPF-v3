@@ -1,12 +1,12 @@
-﻿using Core.Events;
+﻿using Core;
+using Core.Events;
 using Data.Common.Contracts;
 using LiteDB;
 using Shared;
-using S = Data.Common.Contracts.SpecificationRepositories;
 
 namespace Infrastructure.Data
 {
-    public class LiteDBPinnedImageRepository : S.IAsyncRepository<ImageId, Core.PinnedImage>
+    public class LiteDBPinnedImageRepository : IPinnedImageRepository
     {
         private readonly string _connectionString;
 
@@ -15,7 +15,7 @@ namespace Infrastructure.Data
             _connectionString = connectionString;
         }
 
-        public Task<Core.PinnedImage?> FindAsync(S.KeySpecification<Core.PinnedImage, ImageId> specification, CancellationToken cancellationToken = default)
+        public Task<PinnedImage?> FindAsync(PinnedImageByImageIdSpecification specification, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -25,7 +25,7 @@ namespace Infrastructure.Data
 
             pinnedImages.EnsureIndex(x => x.Id, unique: true);
 
-            FlattenedPinnedImageDataHolder? pinnedImage = pinnedImages.Find(x => x.Id == specification.Key.Value).FirstOrDefault();
+            FlattenedPinnedImageDataHolder? pinnedImage = pinnedImages.Find(x => x.Id == specification.ImageId.Value).FirstOrDefault();
 
             return Task.FromResult(pinnedImage != null ? Core.PinnedImage.Existing(
                 id: new ImageId(Value: pinnedImage.Id),
@@ -108,7 +108,7 @@ namespace Infrastructure.Data
 
                         data.ImageColorHexValue = visualStyle.Color.HexValue;
                         data.FrameThicknessValue = visualStyle.FrameThickness;
-                        data.RotationAngle = visualStyle.Rotaion;
+                        data.RotationAngle = visualStyle.Rotation;
                         data.CornerRadius = visualStyle.Corner.Radius;
                         data.CaptionText = visualStyle.Caption.Text;
                         data.CaptionVisible = visualStyle.Caption.IsVisible;

@@ -12,7 +12,7 @@ namespace Presentation.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && value is bool isTrue)
+            if (value is bool isTrue)
             {
                 return (isTrue ? BrushWhenTrue : BrushWhenFalse) ?? Binding.DoNothing;
             }

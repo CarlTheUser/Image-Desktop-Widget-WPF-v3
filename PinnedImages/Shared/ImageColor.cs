@@ -2,7 +2,7 @@
 {
     public record struct ImageColor(string HexValue)
     {
-        public override string ToString()
+        public override readonly string ToString()
         {
             return HexValue;
         }

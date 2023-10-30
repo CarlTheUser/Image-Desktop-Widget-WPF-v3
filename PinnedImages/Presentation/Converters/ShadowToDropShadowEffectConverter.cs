@@ -10,7 +10,7 @@ namespace Presentation.Converters
         {
             if (value != null && value is Models.Shadow shadow)
             {
-                return shadow.Visible ? shadow.Opacity: 0;
+                return shadow.Visible ? shadow.Opacity : 0;
             }
             return Binding.DoNothing;
         }

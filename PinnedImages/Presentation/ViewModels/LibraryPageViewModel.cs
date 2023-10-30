@@ -21,6 +21,14 @@ namespace Presentation.ViewModels
 {
     public class LibraryPageViewModel : ViewModelBase
     {
+        private const double _defaultWidth = 300,
+            _defaultHeight = 225,
+            _defaultLocationX = 50,
+            _defaultLocationY = 50,
+            _defaultFrameThickness = 12;
+
+        private const string _whiteHexValue = "#FFFFFF"; 
+
         private readonly IConfiguration _configuration;
         private readonly IAsyncQuery<IEnumerable<P.PinnedImageListItem>> _allPinnedImageListItemsQuery;
         private readonly IAsyncQuery<P.PinnedImage?, Shared.ImageId> _pinnedImageByImageIdQuery;
@@ -104,12 +112,12 @@ namespace Presentation.ViewModels
                                                                                                     isShown: item.IsShown,
                                                                                                     creationTimestamp: item.CreationTimestamp));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(exception: ex, message: "An error occurred.");
                 _errorNotification.Notify(ex);
             }
-            
+
         }
 
         private async Task PinImageAsync(CancellationToken cancellationToken = default)
@@ -126,19 +134,20 @@ namespace Presentation.ViewModels
                 Result<P.PinnedImage> result = await _pinImageService.PinImage(
                     request: new IPinImageService.PinImageRequest(
                         ImageStream: stream,
-                        Dimension: new Shared.Dimension(Width: 300, Height: 225),
-                        Location: new Shared.Location(X: 50, Y: 50),
-                        Color: new Shared.ImageColor(HexValue: "#FFFFFF"),
-                        FrameThickness: new Shared.FrameThickness(Value: 12),
-                        Rotation: new Shared.Rotation(Angle: 0),
+                        Dimension: new Shared.Dimension(Width: _defaultWidth, Height: _defaultHeight),
+                        Location: new Shared.Location(X: _defaultLocationX, Y: _defaultLocationY),
+                        Color: new Shared.ImageColor(HexValue: _whiteHexValue),
+                        FrameThickness: new Shared.FrameThickness(Value: _defaultFrameThickness),
+                        Rotation: Shared.Rotation.Zero,
                         Corner: Shared.Corner.None,
                         Caption: Shared.Caption.None,
-                        Shadow: Shared.Shadow.None));
+                        Shadow: Shared.Shadow.None),
+                    cancellationToken: cancellationToken);
 
-                if(result.IsFailed) 
+                if (result.IsFailed)
                 {
                     _messageNotification.Notify(parameter: new Message(
-                        Title: "Oops", 
+                        Title: "Oops",
                         Value: result.Errors.FirstOrDefault()?.Message ?? "The unknown happened!"));
 
                     return;
@@ -161,7 +170,7 @@ namespace Presentation.ViewModels
                     out DateTime creationTimestamp);
 
                 _pinnedImages.Insert(
-                    index: 0, 
+                    index: 0,
                     item: new Models.PinnedImageListItem(
                         id: imageId,
                         directory: imageDirectory,
@@ -198,7 +207,7 @@ namespace Presentation.ViewModels
                 {
                     result = await _unpinImageService.Unpin(imageId: imageId);
 
-                    if(result.IsFailed)
+                    if (result.IsFailed)
                     {
                         _messageNotification.Notify(parameter: new Message(
                             Title: "Oops",
@@ -224,7 +233,7 @@ namespace Presentation.ViewModels
 
                     P.PinnedImage? pinnedImage = await _pinnedImageByImageIdQuery.ExecuteAsync(parameter: imageId);
 
-                    if(pinnedImage != null)
+                    if (pinnedImage != null)
                     {
                         _pinnedImageViewLauncher.Launch(parameter: pinnedImage);
                     }
