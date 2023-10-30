@@ -18,13 +18,16 @@ Clone with the recursive flag to include other repos that were referenced.
 # Gallery
 
 Desktop Preview
-![Desktop Preview](https://lh3.googleusercontent.com/drive-viewer/AITFw-zVT8SXpeffQaxQD9-5Vkev9EJjZIjW9tDXXaWunzEc04jD72y2mb9SgrRD549AponsuoQEUtCR42M1xwcYoOVPSvg3xw=s1600)
+![Desktop Preview](https://github.com/CarlTheUser/Image-Desktop-Widget-WPF-v3/assets/36409949/063cd49b-c689-4309-aad7-5be45b841527)
 
 Pinned Image Styler
-![Pinned Image Styler](https://lh3.googleusercontent.com/drive-viewer/AITFw-wQ-pqIb258ZferHy6GzCZGPe2SlNkefn3iNqDbreIiAcdwgxsqsEz9IgM457fm4anLq-n21ycOI_H6Vy6TVp3o3Yke5w=s1600)
+![Pinned Image Styler](https://github.com/CarlTheUser/Image-Desktop-Widget-WPF-v3/assets/36409949/c65b6617-0ab9-4c77-9792-d664c760b794)
 
 Library
-![Library](https://lh3.googleusercontent.com/drive-viewer/AITFw-y_cysVGNHfcYIiE-koQZ_cyVzkVtuRXE01TlqaiTe5AR0OhZKctaI1IxlCDBY6uIVP-iigphITO01LksNQB5e4RFrskQ=s1600)
+![Library](https://github.com/CarlTheUser/Image-Desktop-Widget-WPF-v3/assets/36409949/5774aab1-7ee7-49ed-ab0a-c9bfeb4d7c44)
+
+Oopsie Woopsie
+![Oopsie Woopsie](https://github.com/CarlTheUser/Image-Desktop-Widget-WPF-v3/assets/36409949/6c0f35dd-915c-41fb-901a-b98542260da4)
 
 # License
 MIT License.
