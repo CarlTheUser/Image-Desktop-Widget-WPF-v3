@@ -15,9 +15,6 @@ Clone with the recursive flag to include other repos that were referenced.
 * Library of recently-pinned images.
 * Theme color options.
 
-# Todos
-* Fix Library ListItem Context menus not working
-
 # Gallery
 
 Desktop Preview
